@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Gamepic/begin.tga</file>
+        <file>Gamepic/bgdong.png</file>
+        <file>Gamepic/bghandi.png</file>
+        <file>Gamepic/bglukou.png</file>
+        <file>Gamepic/bgtry.png</file>
+        <file>Gamepic/boy00.gif</file>
+        <file>Gamepic/boy11.gif</file>
+        <file>Gamepic/boy12.gif</file>
+        <file>Gamepic/girl00.gif</file>
+        <file>Gamepic/girl02.gif</file>
+        <file>Gamepic/grass.png</file>
+        <file>Gamepic/knife.png</file>
+        <file>Gamepic/knife2.png</file>
+        <file>Gamepic/master00.gif</file>
+    </qresource>
+</RCC>
