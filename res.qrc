@@ -14,5 +14,9 @@
         <file>Gamepic/knife.png</file>
         <file>Gamepic/knife2.png</file>
         <file>Gamepic/master00.gif</file>
+        <file>Gamepic/BIGTITLE.png</file>
+        <file>Gamepic/level3.png</file>
+        <file>Gamepic/level.png</file>
+        <file>Gamepic/level2.png</file>
     </qresource>
 </RCC>

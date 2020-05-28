@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include<chooselevelwindow.h>
+#include<QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,6 +18,7 @@ public:
     ~MainWindow();
 
     void paintEvent(QPaintEvent *);
+    ChooseLevelwindow *choosescene;
 private:
     Ui::MainWindow *ui;
 };
