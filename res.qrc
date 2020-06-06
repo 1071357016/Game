@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>Gamepic/begin.tga</file>
-        <file>Gamepic/bgdong.png</file>
         <file>Gamepic/bghandi.png</file>
         <file>Gamepic/bglukou.png</file>
         <file>Gamepic/bgtry.png</file>
@@ -11,12 +10,33 @@
         <file>Gamepic/girl00.gif</file>
         <file>Gamepic/girl02.gif</file>
         <file>Gamepic/grass.png</file>
-        <file>Gamepic/knife.png</file>
-        <file>Gamepic/knife2.png</file>
         <file>Gamepic/master00.gif</file>
         <file>Gamepic/BIGTITLE.png</file>
         <file>Gamepic/level3.png</file>
         <file>Gamepic/level.png</file>
         <file>Gamepic/level2.png</file>
+        <file>Gamepic/update.png</file>
+        <file>Gamepic/boom1.png</file>
+        <file>Gamepic/boom2.png</file>
+        <file>Gamepic/boom3.png</file>
+        <file>Gamepic/bullet1.png</file>
+        <file>Gamepic/bullet2.png</file>
+        <file>Gamepic/bullet3.png</file>
+        <file>Gamepic/buy1.png</file>
+        <file>Gamepic/buy2.png</file>
+        <file>Gamepic/buy3.png</file>
+        <file>Gamepic/cao.png</file>
+        <file>Gamepic/flower.png</file>
+        <file>Gamepic/master1.png</file>
+        <file>Gamepic/master2.png</file>
+        <file>Gamepic/master3.png</file>
+        <file>Gamepic/master4.png</file>
+        <file>Gamepic/pit.png</file>
+        <file>Gamepic/road.png</file>
+        <file>Gamepic/Selectbox.png</file>
+        <file>Gamepic/turret3.png</file>
+        <file>Gamepic/turret1.png</file>
+        <file>Gamepic/turret2.png</file>
+        <file>Gamepic/home.png</file>
     </qresource>
 </RCC>

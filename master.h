@@ -4,6 +4,8 @@
 #include<QPainter>
 #include<QImage>
 #include<gameworld.h>
+//个人疏忽把monster打成了master 一失足千古恨 就不改了先
+//怪物大类
 class Master
 {
 public:

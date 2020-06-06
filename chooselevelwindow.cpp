@@ -14,12 +14,12 @@ ChooseLevelwindow::ChooseLevelwindow(QWidget *parent) : QMainWindow(parent)
     level1button->move(200,300);
 
     Gameworld *gameworld1;
-    gameworld1=new Gameworld(":/Gamepic/bgdong",1);
+    gameworld1=new Gameworld(1);
     //点击按键进入游戏世界1
     connect(level1button,&MyPushButton::clicked,this,[=]{
         //切换到选择关卡场景
         //this->hide();
-        gameworld1->show();
+        gameworld1->show();//展示第一关游戏世界1
     });
 
     //关卡二
@@ -35,7 +35,7 @@ void ChooseLevelwindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     QPixmap pix;
-    pix.load(":/Gamepic/bghandi.png");
+    pix.load(":/Gamepic/grass.png");
     painter.drawPixmap(0, 0,this->width(),this->height(), pix);
 
 

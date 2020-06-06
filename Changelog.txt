@@ -1,0 +1,41 @@
+#Changelog文件，记录进度
+
+
+##2020/6/4
+   ###Added：
+  	1.Point类，考虑到会经常用到坐标什么的，就添加了一个点的类
+ 	2.TowerParent类，防御塔父类，目前只设计了
+                            Protected：  x ,y ,width,height<int>这几个参数 ，代表坐标及宽高 以及获得他们的函数
+                3.Gameworld类，
+                           函数：
+                            -<void> Paintmap  函数，画出地图函数，利用多维数组，实现游戏世界坐标的对应，目前只设计了第一关的。
+                           数据成员：
+                            -Homepos<Point*>  记录家的坐标，每一关家的坐标不一样
+   ###Changed:
+               1.Gameworld类，
+		函数：
+		+Gameworld(int)  修改了构造函数的参数 ，因为画地图的方法变了    
+   ###Reduced:
+               1.Gameworld类，
+ 		函数：
+		-<void>paintmaster ()暂时删掉了画怪物的函数，因为觉得要先画塔什么的
+
+##2020/6/6
+   ###Added：
+  	1.Towerpit类，  添加了塔坑类，因为塔坑和塔不太一样 ，而且考虑到鼠标点击需要点塔坑，数据成员就是坐标宽高就不写了
+                2. TowerParent类，
+                            Protected：
+                                         int RotatAngle = 0;       //防御塔旋转角度
+   		         int PitX, PitY;           //防御塔塔坑左上角坐标
+  	                         int ShootRange;           //防御塔的射程   
+                                         int GetRotatAngle() const{return this->RotatAngle;}      //旋转角度
+   		         int GetPitX() const{return this->PitX;} //    获取防御塔坑  左上角原横坐标
+    		         int GetPitY() const{return this->PitY;}//     获取防御塔坑 左上角原纵坐标
+	3.Gameworld类，
+                                     设计了鼠标点击区域宏，这个有参考
+		函数：
+    	               -void mouseClickEvent(QMouseEvent *)；   //鼠标点击事件 ，目标是点击防御塔坑，出现选择框，选择放置塔，还没                                                                                                         写完 ，因为涉及到的类还不够完善。
+     
+   
+
+          

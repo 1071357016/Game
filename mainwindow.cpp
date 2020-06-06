@@ -25,18 +25,10 @@ MainWindow::MainWindow(QMainWindow *parent)
 
       connect(startbutton,&MyPushButton::clicked,this,[=]{
           //切换到选择关卡场景
-          //this->hide();
+          this->hide();
           choosescene->show();
       });
 
-    //Qpushbutton方法设置开始按键
-//        QPushButton *beginbtn = new QPushButton;//创建按钮对象
-//        beginbtn->setParent(this);//在当前窗口显示
-//        beginbtn->move(630,600);
-//        //beginbtn->setStyleSheet(rgb(255, 128, 64));
-//        //beginbtn->setStyleSheet(":/Gamepic/begin.tga");
-//        beginbtn->setText("BEDIN");
-//        beginbtn->setFixedSize(200,50);
 
 }
 

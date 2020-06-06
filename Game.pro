@@ -21,14 +21,19 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     master.cpp \
-    mypushbutton.cpp
+    mypushbutton.cpp \
+    towerparent.cpp \
+    towerpit.cpp
 
 HEADERS += \
+    Point.h \
     chooselevelwindow.h \
     gameworld.h \
     mainwindow.h \
     master.h \
-    mypushbutton.h
+    mypushbutton.h \
+    towerparent.h \
+    towerpit.h
 
 FORMS += \
     mainwindow.ui
@@ -40,3 +45,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     res.qrc
+
+DISTFILES += \
+    Changelog.txt
