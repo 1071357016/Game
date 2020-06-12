@@ -20,20 +20,30 @@ SOURCES += \
     gameworld.cpp \
     main.cpp \
     mainwindow.cpp \
-    master.cpp \
+    monster.cpp \
     mypushbutton.cpp \
+    selectbox.cpp \
+    towerone.cpp \
     towerparent.cpp \
-    towerpit.cpp
+    towerpit.cpp \
+    towerthree.cpp \
+    towertwo.cpp
 
 HEADERS += \
+    Bullet.h \
     Point.h \
+    Selectbutton.h \
     chooselevelwindow.h \
     gameworld.h \
     mainwindow.h \
-    master.h \
+    monster.h \
     mypushbutton.h \
+    selectbox.h \
+    towerone.h \
     towerparent.h \
-    towerpit.h
+    towerpit.h \
+    towerthree.h \
+    towertwo.h
 
 FORMS += \
     mainwindow.ui

@@ -3,39 +3,224 @@
 
 ##2020/6/4
    ###Added：
-  	1.Point类，考虑到会经常用到坐标什么的，就添加了一个点的类
- 	2.TowerParent类，防御塔父类，目前只设计了
-                            Protected：  x ,y ,width,height<int>这几个参数 ，代表坐标及宽高 以及获得他们的函数
-                3.Gameworld类，
-                           函数：
-                            -<void> Paintmap  函数，画出地图函数，利用多维数组，实现游戏世界坐标的对应，目前只设计了第一关的。
-                           数据成员：
-                            -Homepos<Point*>  记录家的坐标，每一关家的坐标不一样
+        1.Point类(.h):考虑到会经常用到坐标什么的，就添加了一个点的类
+        2.TowerParent类(.h/.cpp):，防御塔父类，目前只设计了
+                  Protected：
+                  -x ,y ,width,height,pitx,pity  :int这几个参数 ，代表坐标及宽高 以及获得他们的函数
+        3.Gameworld类:
+                  函数：
+                  -Paintmap(QPainter&):void 画出地图函数，利用多维数组，实现游戏世界坐标的对应，目前只设计了第一关的。
+                  数据成员：
+                  -Homepos：Point*  记录家的坐标，每一关家的坐标不一样
+        4.网上找资源文件合适的太少了，就自己用PS画了一些导入了
+
    ###Changed:
-               1.Gameworld类，
+        1.Gameworld类，
 		函数：
 		+Gameworld(int)  修改了构造函数的参数 ，因为画地图的方法变了    
-   ###Reduced:
-               1.Gameworld类，
+   ###Removed:
+        1.Gameworld类，
  		函数：
-		-<void>paintmaster ()暂时删掉了画怪物的函数，因为觉得要先画塔什么的
+                -paintmaster (QPainter&):void暂时删掉了画怪物的函数，因为觉得要先画塔什么的
+
+
 
 ##2020/6/6
    ###Added：
-  	1.Towerpit类，  添加了塔坑类，因为塔坑和塔不太一样 ，而且考虑到鼠标点击需要点塔坑，数据成员就是坐标宽高就不写了
-                2. TowerParent类，
-                            Protected：
-                                         int RotatAngle = 0;       //防御塔旋转角度
-   		         int PitX, PitY;           //防御塔塔坑左上角坐标
-  	                         int ShootRange;           //防御塔的射程   
-                                         int GetRotatAngle() const{return this->RotatAngle;}      //旋转角度
-   		         int GetPitX() const{return this->PitX;} //    获取防御塔坑  左上角原横坐标
-    		         int GetPitY() const{return this->PitY;}//     获取防御塔坑 左上角原纵坐标
-	3.Gameworld类，
-                                     设计了鼠标点击区域宏，这个有参考
+        1.Towerpit类(.h/.cpp):  添加了塔坑类，因为塔坑和塔不太一样 ，而且考虑到鼠标点击需要点塔坑，
+                               数据成员就是坐标宽高。
+        2.Gameworld类:
+             设计了鼠标点击区域宏，这个有参考网络.
 		函数：
-    	               -void mouseClickEvent(QMouseEvent *)；   //鼠标点击事件 ，目标是点击防御塔坑，出现选择框，选择放置塔，还没                                                                                                         写完 ，因为涉及到的类还不够完善。
+                - mouseClickEvent(QMouseEvent *):void；   //鼠标点击事件 ，目标是点击防御塔坑，出现选择框，选择放置塔，还没                                                                                                         写完 ，因为涉及到的类还不够完善。
      
    
+——————实现的功能：开始界面，选择关卡界面，第一关地图绘制————————
 
-          
+
+##2020/6/8
+   ###Added：
+        1.Towerone,Towertwo,Towerthree类(.h/.cpp)：塔父类派生类.
+                构造函数参数为塔图片的坐标，塔图片的宽高，塔坑的原坐标
+        2.SelectBox类(.h/.cpp)：选择框类 实现的是点击塔坑出现选择框的封装
+                  数据成员：
+                  -x, -y :int        //最左上角坐标，初始化为0
+                  - width,- height:int;        //选择框宽高
+                  -SelecBoxPicPath:QString ;  //选择框图片路径
+                  - selectbut[3]:SelectButton ;     //三个选择子按钮
+                  - show=false:bool ;           //选择框显示默认为不显示
+
+        3.SelectButton类（.h)：选择框按钮类，实现对选择框中每一个按钮的封装
+                   -x,-y;           //子按钮的横坐标/子按钮的纵坐标
+                   -SubWidth = 80:int;  //根据 选择框图片 固定子按钮宽和高
+                   -SubHeight = 80:int;
+                   -SubPicPath:QString ; //子按钮的图片路径
+        4.Gameworld类:
+                 数据成员：
+                  -TowerpitVec:Towerpit*
+                  -TowerVec:TowerParent*
+                  -money=500:int    //拥有金钱值
+                  函数：
+                  -paintSelectionBox(QPainter&):void 画出选择框函数
+                  —paintTower(QPainter&):void 点击塔后画出塔
+                  -Ifmoneyenough(int mon)：bool //判断钱够不够，如果够，减少金钱值
+
+
+
+   ###Changed:
+               1.Gameworld类，
+                函数：
+                - paintEvent(QPaintEvent *):void 添加进画选择框和塔的函数
+                - mousePressEvent(QMouseEvent *):void 破案了，之前我试了好久点击鼠标都没反应，因为函数名字写错了，没有办法继承
+                                                       这次添加了对点击塔坑和点击选择框子按钮的事件处理
+   ###Removed:
+              无。
+
+————————实现的功能：点击塔坑出现选择框，选择炮塔——————————
+
+
+
+##2020/6/9
+   ###Added：
+        1.Monster类(.h/.cpp)：怪物类
+               数据成员：
+                -x,y:int //初始位置
+                -width,height:int //怪物图片宽高
+                -type:int //怪物类别
+                -path:QVector<Point*> ;//存储怪物要走的路线
+                -NumOfPathPoint:QVector<Point*>//路线点个数
+                -MonsterPic:QString//怪物图片
+                -value:int;/击败你能获得的钱
+                -life:int//生命值
+                -speed:int//移动速度
+               函数：
+                +Monster(int x1,int y1,int id,Point** path1,int NumOfPathPoint1)//怪物类构造函数：
+                                                                                 怪物初始位置，怪物编号：1~4,怪物要走的路的数组地址，路线转折点个数
+                //获取怪物信息函数
+                +getx()：int
+                +gety():int
+                +getwidth():int
+                +getheight():int
+                +getvalue():int
+                +getlife():int
+                +getMonsterPic():QString
+         2.Gameworld类:
+              数据成员：
+                -MonsterVec:QVector<Monster *> //怪物数组
+                -mylife:int  //我们的生命值，归零则游戏失败
+                -TimeMonsterNum=0：int//时间计数，每插入一次怪物加一，也就是实现游戏时间越长难度越大
+   ###Changed:
+               无
+   ###Removed:
+        1.Master类(.h/.cpp)原来的名字打错了 就删掉了
+        2.Gameworld类：
+               函数：
+               Gameworld中的构造函数的计时器Timer1及其对应槽函数Update
+
+
+
+
+
+
+##2020/6/10
+   ###Added：
+        1.Monster类(.h/.cpp)：怪物类
+
+               函数：
+                +SetLife(int hurt):void //受伤害后重置生命值
+                +MonsterMove():bool   //返回值判断是否走到终点 ，同时实现怪物的移动
+        2.Bullet类(.h):子弹类
+               数据成员：
+                +x,y:int
+                +k,b:double
+        3.Gameworld类：
+               函数：
+                -paintMonster(QPainter&)：void;//画怪物函数
+                -ProduceMonster(Point** Path1,Point** Path2,Point* StartPoint, int* NumOfPoint)：void;
+                //生成怪物事件,参数为 第一条拐点数组 第二条拐点数组  出发点  拐点个数，通过Gameworld构造函数中每时每刻调用
+                -InsertMonster(Point** path,Point& startpoint,int numofguaidian,int Monsterid);
+                //插入怪物到怪物数组
+
+
+
+   ###Changed:
+        3.Gameworld类：
+               函数
+               - paintEvent(QPaintEvent *):void添加进画怪物函数
+               - Gameworld构造函数：
+                  添加进了计时器timer3 及创建相应槽函数 用来刷新插入怪物
+   ###Removed:
+        1.Master类(.h/.cpp)原来的名字打错了 就删掉了
+
+
+
+————————实现的功能：怪物初产生和移动——————————
+
+
+
+##2020/6/11 and 2020/6/12
+  想逐步实现塔和怪物的交互：
+  但遇到了一些问题 子弹画不出？
+  发现是在判断子弹是否出界时清空了子弹数组。另外用一次函数判断子弹的方法有些漏洞，在怪物走近时
+  斜率变得很大，子弹绘制出来很多异常情况,有时候一下子移动很多,而且很难做到精准。
+  考虑到后期工作量，准备改变方向做成范围攻击的模式。
+   ###Added：
+        1.TowerParent类：
+
+             Monster* AimMonster= NULL;//记录防御塔的目标怪物
+              //关于子弹的数据成员加入
+             int bulletwidth, bulletheight;      //子弹宽高
+             int breaks=0;          //用于控制发射子弹的速度
+             int attack;             //防御炮塔攻击
+             QVector<Bullet*>  BulletVec;  //子弹数组
+             QString BulletPic;       //子弹图片路径
+
+             int GetAttack() const;          //获取炮塔攻击力
+             int GetBulletWidth() const;     //获取子弹的宽度
+             int GetBulletHeight() const;    //获取子弹的高度
+
+             Monster* GetAimMonster() const;//获取当前炮塔的目标怪物
+             QString GetBulletPic() const;  //返回防御塔子弹图片路径
+             QVector<Bullet*>&   GetBulletVec();//返回子弹数组
+
+            //控制子弹相关函数
+                void InsertBullet();             //向子弹数组插入子弹 同时计算kb
+
+                void SetAimsMonster(Monster*);  //设置当前防御塔的目标怪物
+
+                void BulletMove();              //子弹移动函数
+
+         2.Bullet类(.h):子弹类
+
+              bool direction=false;   //移动方向标识根据其判断向左向右
+               //获取子弹坐标
+              int Getx()const
+              int Gety() const
+         3.Gameworld类：
+               函数：
+                -Distance(int x1,int y1,int x2,int y2):double ;//计算两点间距离
+                -Gameworld构造函数Timer3中实现炮对怪物的监视
+                -paintbullet:画出子弹
+
+         4.Towerone类 Towertwo类 Towerthree类
+              以Towerone构造函数为例，加入设置：
+                ShootRange=100;//射程
+                //子弹相关
+                BulletPic=":/Gamepic/bullet2.png";
+                bulletwidth=20;
+                bulletheight=20;
+                attack=3;
+
+   ###Changed:
+        3.Gameworld类：
+               函数
+               -mousePressEvent(QMouseEvent *):void
+                    点击选择塔时扣除当前金钱值
+
+   ###Removed:
+
+
+————————实现的功能：子弹的发射绘制等——————————
+
+
+
