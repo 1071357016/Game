@@ -69,6 +69,10 @@ public:
 
     void BulletMove();              //子弹移动函数
 
+    //6.14改变方向 攻击函数
+    //判断是否攻击
+    bool ifTowerAttack();
+
 
 };
 

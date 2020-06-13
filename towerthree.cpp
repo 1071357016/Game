@@ -17,5 +17,5 @@ Towerthree::Towerthree(int x1,int y1,int pitx, int pity,int width1,int height1)
     BulletPic=QString(":/Gamepic/bullet3.png");
     bulletwidth=20;
     bulletheight=20;
-    attack=40;
+    attack=400;
 }

@@ -18,7 +18,24 @@ Gameworld::Gameworld(int i):level(i){
 //    connect(timer1,&QTimer::timeout,[=](){
 //        update();
 //    });
+    //我方生命值标签
+    //QLabel *lifelable = new QLabel(this);
+    QPalette pe;
+    pe.setColor(QPalette::WindowText,Qt::red);
+    lifelable->setPalette(pe);
+    lifelable->setGeometry(20, 10, 180, 30);
+    lifelable->setFont(QFont("STHeiti", 20));
+    lifelable->setText(QString("生命：%1").arg(mylife));
 
+
+    //我方金钱标签
+   // QLabel *moneylable = new QLabel(this);
+    QPalette pe2;
+    pe2.setColor(QPalette::WindowText,Qt::yellow);
+    moneylable->setPalette(pe2);
+    moneylable->setGeometry(220, 10, 180, 30);
+    moneylable->setFont(QFont("STHeiti", 20));
+    moneylable->setText(QString("金钱：%1").arg(money));
     //每时每刻产生构造怪物产生路径并传入怪物,时间间隔控制产生怪物间隔
     QTimer* timer2 = new QTimer(this);
     timer2->start(3000);
@@ -29,15 +46,16 @@ Gameworld::Gameworld(int i):level(i){
         case 1:
         {
             //设置路径点  第一关没有拐弯的地方，第一个拐点就是出发点，最后一个拐点即 家的坐标。
-           Point* path1[] = {new Point(0,280), new Point(960, 280)};
-           Point* path2[] = {new Point(0,280), new Point(960, 280)};
+           Point* path1[] = {/*new Point(0,260),*/new Point(960, 280)};
+           Point* path2[] = {/*new Point(0,290),*/ new Point(960, 280)};
             //怪物的起始点数组MonsterStart，都规定好的
-            Point start1(0,280);
-            Point MonsterStart[]={start1};
+            Point start1(0,260);
+            Point start2(0,290);
+            Point MonsterStart[]={start1,start2};
            //CoorStr staco[] = {CoorStr(8, 0), CoorStr(20, 0), CoorStr(8, -1), CoorStr(20, -1)};
 
             //每条路径的结点个数,第一关两条路径都是一样的，相当于都是2个拐点
-           int PathPoint[2] = {2,2};
+           int PathPoint[2] = {1,1};
            ProduceMonster(path1,path2,MonsterStart,PathPoint);
            // IrodMonsProgDefa(Waypointarr1, Waypointarr2, staco, PathLength, victorylable);   //使用预设的两条路产生怪物方案
 
@@ -46,6 +64,7 @@ Gameworld::Gameworld(int i):level(i){
 
       }
     });
+
 
 
     //每时每刻画怪物+判断怪物进没进入炮塔的攻击区域 进入发射子弹+
@@ -57,21 +76,30 @@ Gameworld::Gameworld(int i):level(i){
 
         //通过调用怪物移动函数刷新怪物位置
         for (auto aMonster=MonsterVec.begin();aMonster!= MonsterVec.end(); aMonster++)
-            if((*aMonster)->MonsterMove()) //怪物闯入家
+           {
+            if((*aMonster)->getlife()<=0)
             {
-                delete *aMonster;
+               money=money+(*aMonster)->getvalue();
+               moneylable->setText(QString("金钱：%1").arg(money));//刷新标签
+               delete *aMonster;
+               MonsterVec.erase(aMonster);
+               break;
+            }
+             if((*aMonster)->MonsterMove()) //怪物闯入家
+              {
+                 delete *aMonster;
                 MonsterVec.erase(aMonster);         //怪物走到终点则删除这个怪物
 
                 this->mylife--;                         //我们的生命数量-1
-               // lifelable->setText(QString("生命：%1").arg(life));
+              lifelable->setText(QString("生命：%1").arg(mylife));
 
                 if (mylife<= 0) this->close();   //生命值为0时关闭该窗口
 
                 break;
-            }
+               }
 
 
-
+          }
 
 
         for (auto aTower:TowerVec)      //遍历防御塔
@@ -80,8 +108,9 @@ Gameworld::Gameworld(int i):level(i){
             if (aTower->GetAimMonster()==NULL)
             {
                 for(int i =MonsterVec.size()- 1;i>=0; i--)
-                    //这里以防御塔中心点和怪物中心点判断
+                    //这里以防御塔中心点和怪物中心点判断  且怪物生命值要大于0
                     if (Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,MonsterVec.at(i)->getx()+MonsterVec.at(i)->getwidth()/2,MonsterVec.at(i)->gety()+MonsterVec.at(i)->getheight()/2)<=aTower->GetShootrange())
+                      if(MonsterVec.at(i)->getlife()>0)
                     {
                         aTower->SetAimsMonster(MonsterVec.at(i));    //设置防御塔的目标怪物
                         qDebug()<<"Aim monster get!";
@@ -89,27 +118,41 @@ Gameworld::Gameworld(int i):level(i){
                     }
             }
 
-            //在判断若当前防御塔拥有目标
+            //判断若当前防御塔拥有目标//目标在攻击范围内
            if(aTower->GetAimMonster()!=NULL)
                 {
                        //目标在攻击范围内
-                         if (Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,aTower->GetAimMonster()->getx()+aTower->GetAimMonster()->getwidth()/2,aTower->GetAimMonster()->gety()+aTower->GetAimMonster()->getheight()/2)<=aTower->GetShootrange())
+                   if (Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,aTower->GetAimMonster()->getx()+aTower->GetAimMonster()->getwidth()/2,aTower->GetAimMonster()->gety()+aTower->GetAimMonster()->getheight()/2)<=aTower->GetShootrange())
                                 {
                                //拥有目标时一直创建子弹
-                                   qDebug()<<"Bullet is doing";
-                                   aTower->InsertBullet();
+                                   //qDebug()<<"Bullet is doing";
+                                     //aTower->InsertBullet();
+                                       if(aTower->ifTowerAttack())
+                                       {
+                                           aTower->GetAimMonster()->SetLife(aTower->GetAttack());
+                                                if(aTower->GetAimMonster()->getlife()>0)
+                                                {
+                                                      //MonsterVec.erase(aTower->GetAimMonster());
+                                                       aTower->SetAimsMonster(NULL);
+                                                   }
+                                       }
+
                                  }
-
-
-                        // if (Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,MonsterVec.at(i)->getx()+MonsterVec.at(i)->getwidth()/2,MonsterVec.at(i)->gety()+MonsterVec.at(i)->getheight()/2)>aTower->GetShootrange())
-                          if(Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,aTower->GetAimMonster()->getx()+aTower->GetAimMonster()->getwidth()/2,aTower->GetAimMonster()->gety()+aTower->GetAimMonster()->getheight()/2)>aTower->GetShootrange())
-                                    aTower->SetAimsMonster(NULL);     //超过距离将目标怪物设为空
+                 }
+           //判断若当前防御塔拥有目标,超过距离将目标怪物设为空
+           if(aTower->GetAimMonster()!=NULL)
+                  {
+                      if(Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,aTower->GetAimMonster()->getx()+aTower->GetAimMonster()->getwidth()/2,aTower->GetAimMonster()->gety()+aTower->GetAimMonster()->getheight()/2)>aTower->GetShootrange())
+                                    aTower->SetAimsMonster(NULL);
 
                         // }
                   }
-           qDebug()<<"BulletMove";
+           //qDebug()<<"BulletMove";
           aTower->BulletMove();
         }
+
+
+
 
        update();
 
@@ -127,6 +170,13 @@ void Gameworld::ProduceMonster(Point** Path1,Point** Path2,Point* StartPoint, in
     {
         //开始游戏怪物数目1~10时，只有一条路产生编号1的小黑黑怪
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
+
+    }
+    if(this->TimeMonsterNum>10&&this->TimeMonsterNum<=17)
+    {
+
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
+        InsertMonster(Path2,StartPoint[1],NumOfPoint[1],2);
 
     }
 
@@ -271,10 +321,12 @@ void Gameworld::paintEvent(QPaintEvent *)
     paintbullet(painter);
 }
 
-//判断金钱够不够
+//判断金钱够不够设塔 、升级等等
 bool Gameworld::Ifmoneyenough(int mon){
     if(this->money>=mon){
         money=money-mon;
+
+        moneylable->setText(QString("金钱：%1").arg(money));//刷新标签
         return true;
     }
     return false;

@@ -5,7 +5,7 @@ class Point{
 public:
     int x=0;
     int y=0;
-    Point();
+    //Point();
     Point(int x1,int y1){x=x1;y=y1;}
     Point(Point & p){x=p.x;y=p.y;}
 };

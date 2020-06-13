@@ -26,7 +26,7 @@ Monster::Monster(int x1,int y1,Point** path1,int NumOfPathPoint1,int id):x(x1),y
             this->width=50;
             this->height=50;
             this->value=100;
-             this->speed=20;
+             this->speed=7;
             MonsterPic=":/Gamepic/master2.png";
             break;
     case 3:
@@ -65,7 +65,11 @@ bool Monster::MonsterMove(){
         y=y-speed;
         return false;
     }
-
+    if (path.at(0)->x>x) //右
+    {
+        x=x+speed;
+        return false;
+    }
     //同理
     if (path.at(0)->y>y) //下
     {
@@ -79,11 +83,7 @@ bool Monster::MonsterMove(){
         return false;
     }
 
-    if (path.at(0)->x>x) //右
-    {
-        x=x+speed;
-        return false;
-    }
+
 
      //重合则删除此路径点
     if (path.at(0)->y==this->y && path.at(0)->x==this->x)

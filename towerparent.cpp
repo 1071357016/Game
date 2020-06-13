@@ -21,13 +21,13 @@ void TowerParent::InsertBullet(){
 
     //向子弹数组中插入子弹
 
-    Bullet *aBullet=new Bullet(this->PitX+40,this->PitY+40);
-     aBullet->x= PitX+40;
-     aBullet->y= PitY+40;
+    Bullet *aBullet=new Bullet(this->PitX,this->PitY);
+//     aBullet->x= PitX+40;
+//     aBullet->y= PitY+40;
 
 
     //计算子弹的路径 用公式y=kx+b 当斜率存在时
-      if(abs(AimMonster->getx()-aBullet->Getx())>10)
+      if(abs(AimMonster->getx()-aBullet->Getx())>60)
     {
      aBullet->k=(AimMonster->gety()-aBullet->Gety())/(AimMonster->getx()-aBullet->Getx());
      aBullet->b=AimMonster->gety()-AimMonster->gety()*aBullet->k;
@@ -53,7 +53,7 @@ void TowerParent::BulletMove(){
 
     for(auto aBullet: BulletVec)
     {
-        int speed=7;              //子弹移动速度
+        int speed=20;              //子弹移动速度
 
         if(aBullet->direction==true)    //怪兽在在子弹左边
             aBullet->x-=speed;        //根据移动方向标记判断每颗子弹的移动方向
@@ -74,6 +74,21 @@ void TowerParent::BulletMove(){
     }
 
 }
+
+bool TowerParent::ifTowerAttack()
+{
+
+    //攻击间隙控制器
+    breaks++;
+    //控制攻击间隙为6个刷新（时），或者无目标怪物返回
+    if( breaks<=6||AimMonster==NULL)
+        return false;
+
+
+     breaks=0;
+     return true;
+}
+
 
 //获取攻击力
 int TowerParent::GetAttack() const{

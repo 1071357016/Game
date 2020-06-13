@@ -3,6 +3,8 @@
 //游戏世界主页面类
 #include <QMainWindow>
 #include <QMouseEvent>
+#include<QLabel>
+#include<QPalette>
 #include<QPainter>
 #include<QDebug>
 #include<cmath>
@@ -33,7 +35,10 @@ private:
 
     int level;
     int money=700;//金钱 初始值为700
+    QLabel *moneylable = new QLabel(this);   //金钱标签控件,声明在此因为多个函数用到
+
     int mylife=7;//我们的生命值
+    QLabel *lifelable = new QLabel(this);   //显示生命标签控件
 
     int TimeMonsterNum=0;//时间计数，每插入怪物加一，也就是实现游戏时间越长难度越大
 

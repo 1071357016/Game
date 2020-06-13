@@ -11,7 +11,7 @@ Towerone::Towerone(int x1,int y1,int pitx, int pity,int width1,int height1)
     this->TowerPic= QString(":/Gamepic/turret1.png");
 
 
-      ShootRange=150;//射程
+      ShootRange=100;//射程
     //子弹相关
     BulletPic=QString(":/Gamepic/bullet2.png");
     bulletwidth=20;

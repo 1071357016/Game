@@ -144,7 +144,7 @@
 
 
    ###Changed:
-        3.Gameworld类：
+        1.Gameworld类：
                函数
                - paintEvent(QPaintEvent *):void添加进画怪物函数
                - Gameworld构造函数：
@@ -212,7 +212,7 @@
                 attack=3;
 
    ###Changed:
-        3.Gameworld类：
+        1.Gameworld类：
                函数
                -mousePressEvent(QMouseEvent *):void
                     点击选择塔时扣除当前金钱值
@@ -222,5 +222,30 @@
 
 ————————实现的功能：子弹的发射绘制等——————————
 
+
+
+##2020/6/13
+   ###Added：
+        1.TowerParent类:
+               函数：
+               //判断是否攻击目标怪物
+               bool ifTowerAttack();
+        2.Gameworld类：
+               数据成员：
+               QLabel *moneylable = new QLabel(this);   //金钱标签控件,声明在此因为多个函数用到
+               QLabel *lifelable = new QLabel(this);   //显示生命标签控件
+
+               函数：
+
+
+
+
+   ###Changed:
+       1.Gameworld类：
+               函数:
+               - Gameworld构造函数：
+               添加进了怪物和塔的交互，即怪物走入塔attack范围内，隔一段时间就收到攻击，
+               生命值减少。
+   ###Removed:
 
 
