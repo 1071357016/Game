@@ -31,8 +31,10 @@ public:
     //重载构造函数，i为关卡数，根据关卡数设置地图
     Gameworld(int i);
 private:
-
-
+    //游戏胜利和失败的标签
+     QLabel *winlable = new QLabel(this);
+     QLabel *loselable = new QLabel(this);
+     int flag=0;//防止出现胜利失败同时展现的局面
     int level;
     int money=700;//金钱 初始值为700
     QLabel *moneylable = new QLabel(this);   //金钱标签控件,声明在此因为多个函数用到

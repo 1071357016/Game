@@ -12,18 +12,31 @@ Gameworld::Gameworld(int i):level(i){
    //游戏界面图标设置，大小固定设置
     setFixedSize(1040, 640);//为了方便设置地图修改了界面大小
     setWindowIcon(QIcon(":/Gamepic/bgtry.png"));
-    //绘图刷新
-//    QTimer* timer1 = new QTimer(this);
-//    timer1->start(8000);
-//    connect(timer1,&QTimer::timeout,[=](){
-//        update();
-//    });
+
+
+    //胜利及失败标签
+    QPalette pe3;
+    pe3.setColor(QPalette::WindowText,Qt::yellow);
+    winlable->setPalette(pe3);
+    winlable->move(330, 180);
+    winlable->setFont(QFont("华康海报体W12(P)", 110));
+    winlable->setText(QString("WIN"));
+     winlable->hide();
+
+     pe3.setColor(QPalette::WindowText,Qt::red);
+    loselable->setPalette(pe3);
+    loselable->move(220, 180);
+    loselable->setFont(QFont("华康海报体W12(P)", 110));
+    loselable->setText(QString("LOSE"));
+    loselable->hide();
+
+
     //我方生命值标签
     //QLabel *lifelable = new QLabel(this);
     QPalette pe;
     pe.setColor(QPalette::WindowText,Qt::red);
     lifelable->setPalette(pe);
-    lifelable->setGeometry(20, 10, 180, 30);
+    lifelable->setGeometry(20, 10, 180, 35);
     lifelable->setFont(QFont("华康海报体W12(P)", 20));
     lifelable->setText(QString("生命：%1").arg(mylife));
 
@@ -33,8 +46,8 @@ Gameworld::Gameworld(int i):level(i){
     QPalette pe2;
     pe2.setColor(QPalette::WindowText,Qt::yellow);
     moneylable->setPalette(pe2);
-    moneylable->setGeometry(700, 10, 180, 30);
-    moneylable->setFont(QFont("Sylfaen", 20));
+    moneylable->setGeometry(700, 10, 210, 35);
+    moneylable->setFont(QFont("华康海报体W12(P)", 20));
     moneylable->setText(QString("金钱：%1").arg(money));
     //每时每刻产生构造怪物产生路径并传入怪物,时间间隔控制产生怪物间隔
     QTimer* timer2 = new QTimer(this);
@@ -52,12 +65,26 @@ Gameworld::Gameworld(int i):level(i){
             Point start1(0,260);
             Point start2(0,290);
             Point MonsterStart[]={start1,start2};
-           //CoorStr staco[] = {CoorStr(8, 0), CoorStr(20, 0), CoorStr(8, -1), CoorStr(20, -1)};
 
             //每条路径的结点个数,第一关两条路径都是一样的，相当于都是2个拐点
            int PathPoint[2] = {1,1};
            ProduceMonster(path1,path2,MonsterStart,PathPoint);
-           // IrodMonsProgDefa(Waypointarr1, Waypointarr2, staco, PathLength, victorylable);   //使用预设的两条路产生怪物方案
+
+            break;
+        }
+        case 2:
+        {
+            //设置路径点  第一关没有拐弯的地方，第一个拐点就是出发点，最后一个拐点即 家的坐标。
+           Point* path1[] = {new Point(140, 140),new Point(140,300),new Point(400,300),new Point(380,160),new Point(740,160),new Point(740,500),new Point(900,500)};
+           Point* path2[] = {new Point(380,160),new Point(740,160),new Point(740,500),new Point(900,500)};
+            //怪物的起始点数组MonsterStart，都规定好的
+            Point start1(0,140);
+            Point start2(400,640);
+            Point MonsterStart[]={start1,start2};
+
+            //每条路径的结点个数,第一关两条路径都是一样的，相当于都是2个拐点
+           int PathPoint[2] = {7,4};
+           ProduceMonster(path1,path2,MonsterStart,PathPoint);
 
             break;
         }
@@ -89,14 +116,19 @@ Gameworld::Gameworld(int i):level(i){
             //通过调用怪物移动函数刷新怪物位置
              if((*aMonster)->MonsterMove()) //怪物闯入家
               {
-                 delete *aMonster;
-                MonsterVec.erase(aMonster);         //怪物走到终点则删除这个怪物
+                      delete *aMonster;
+                            MonsterVec.erase(aMonster);         //怪物走到终点则删除这个怪物
 
-                this->mylife--;                         //我们的生命数量-1
-              lifelable->setText(QString("生命：%1").arg(mylife));
+                                this->mylife--;                         //我们的生命数量-1
+                               lifelable->setText(QString("生命：%1").arg(mylife));
 
-                if (mylife<= 0) this->close();   //生命值为0时关闭该窗口
-
+                               if (mylife<= 0)
+                               {
+                                   loselable->show();
+                                   MonsterVec.clear();
+                                   flag=1;
+                                   // this->close();   //生命值为0时关闭该窗口
+                               }
                 break;
                }
 
@@ -128,7 +160,7 @@ Gameworld::Gameworld(int i):level(i){
                                 {
                                //拥有目标时一直创建子弹
                                    //qDebug()<<"Bullet is doing";
-                                     //aTower->InsertBullet();
+                                   //  aTower->InsertBullet();
                                        if(aTower->ifTowerAttack())
                                        {
                                            aTower->GetAimMonster()->SetLife(aTower->GetAttack());
@@ -136,7 +168,7 @@ Gameworld::Gameworld(int i):level(i){
                                                 {
                                                       //MonsterVec.erase(aTower->GetAimMonster());
                                                        aTower->SetAimsMonster(NULL);
-                                                   }
+                                                }
                                        }
 
                                  }
@@ -150,7 +182,7 @@ Gameworld::Gameworld(int i):level(i){
                         // }
                   }
            //qDebug()<<"BulletMove";
-          //aTower->BulletMove();
+         // aTower->BulletMove();
         }
 
 
@@ -167,7 +199,8 @@ Gameworld::Gameworld(int i):level(i){
 //生成怪物事件
 void Gameworld::ProduceMonster(Point** Path1,Point** Path2,Point* StartPoint, int* NumOfPoint){
 
-
+if(level==1)
+ {
     if(this->TimeMonsterNum>=0&&this->TimeMonsterNum<=10)
     {
         //开始游戏怪物数目1~10时，只有一条路产生编号1的小黑黑怪
@@ -181,7 +214,42 @@ void Gameworld::ProduceMonster(Point** Path1,Point** Path2,Point* StartPoint, in
         InsertMonster(Path2,StartPoint[1],NumOfPoint[1],2);
 
     }
+    if(this->TimeMonsterNum>17&&MonsterVec.empty()&&flag==0)
+    {
+        winlable->show();
+        return;
+    }
+   }
 
+if(level==2)
+ {
+    if(this->TimeMonsterNum>=0&&this->TimeMonsterNum<=5)
+    {
+        //开始游戏怪物数目1~10时，只有一条路产生编号1的小黑黑怪
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],2);
+
+    }
+    if(this->TimeMonsterNum>5&&this->TimeMonsterNum<=12)
+    {
+
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],2);
+        InsertMonster(Path2,StartPoint[1],NumOfPoint[1],3);
+
+    }
+    if(this->TimeMonsterNum>12&&this->TimeMonsterNum<=18)
+    {
+
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],2);
+        InsertMonster(Path2,StartPoint[1],NumOfPoint[1],3);
+
+    }
+    if(this->TimeMonsterNum>18&&MonsterVec.empty()&&flag==0)
+    {
+        winlable->show();
+        return;
+    }
+   }
     TimeMonsterNum++;
     return;
 
@@ -220,18 +288,50 @@ void Gameworld::paintmap(QPainter &p){
     };
 
 
-    int Map[16][26];    //用于拷贝不同的地图，根据关卡变化
+    int Map2[16][26]={
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0,
+        0, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 6,
+        1, 1, 1, 1, 1, 0, 0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 1, 1, 0, 6, 2, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 6, 0, 0, 0,
+        0, 0, 0, 1, 1, 0, 0, 9, 9, 1, 1, 0, 0, 0, 0, 0, 2, 9, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 6, 0, 9, 9, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 6, 0, 6, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 6, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 6, 0, 0, 0, 6, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 9, 0, 0, 0, 0,
+        0, 6, 0, 0, 0, 0, 0, 6, 0, 1, 1, 0, 0, 6, 0, 0, 0, 0, 1, 1, 9, 9, 6, 3, 0, 0,
+        0, 0, 6, 0, 0, 0, 0, 0, 0, 1, 1, 0, 6, 0, 0, 0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        6, 6, 0, 0, 6, 0, 0, 0, 0, 1, 1, 0, 0, 6, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        6, 6, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        6, 0, 6, 0, 0, 0, 6, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0,
+    };
+
+
+
+
+    //用于拷贝不同的地图，根据关卡变化
+    int Map[16][26];    //用于拷贝不同的关卡数组
+
     //实现
     switch (level)
     {
     case 1:
         memcpy(Map, Map1, sizeof(Map));
         break;
-
+    case 2:
+        memcpy(Map, Map2,sizeof(Map));
+        break;
+//   case3:
+//        memcpy(Map,Map3,sizeof(Map));
+//        break;
     default:
         break;
     }
 
+
+    if(level==1)
+    {
     for (int j = 0; j < 16; j++)
         for (int i = 0; i<26;i++)
         {
@@ -256,10 +356,53 @@ void Gameworld::paintmap(QPainter &p){
             case 4: //画上花花
                 p.drawPixmap(i*40,j*40,40,40,QPixmap(":/Gamepic/flower.png"));
                 break;
+
             }
         //画上家
             p.drawPixmap(homepos->x, homepos->y, 120, 120, QPixmap(":/Gamepic/home.png")); //最后画出家
          }
+
+    }
+    if(level==2)
+    {
+        for (int j = 0; j < 16; j++)
+            for (int i = 0; i<26;i++)
+            {
+                switch (Map[j][i])
+                {
+                case 0:     //画上树
+                    p.drawPixmap(i * 40, j * 40, 40, 40,QPixmap(":/Gamepic/tree2.png"));
+                    break;
+                case 1:     //画上路
+                    p.drawPixmap(i * 40, j * 40, 40, 40,QPixmap(":/Gamepic/road.png"));
+                    break;
+                case 2:     //画上塔坑,同时初始化塔坑数组的一个成员并插入数组
+                    p.drawPixmap(i * 40, j * 40, 80, 80,QPixmap(":/Gamepic/pit.png"));
+                    TowerpitVec.push_back(new TowerPit(i * 40, j * 40));
+                    break;
+
+                case 3://记录家的坐标，留到最后画
+                    p.drawPixmap(i * 40, j * 40, 80, 80,
+                        QPixmap(":/Gamepic/tree.png"));  //暂时画上草，最后添上家 防止背景空白
+                    homepos->x=i*40;homepos->y=j*40;
+                    break;
+                case 4: //画上花花
+                    p.drawPixmap(i*40,j*40,40,40,QPixmap(":/Gamepic/flower.png"));
+                    break;
+                case 5://画水
+                    p.drawPixmap(i*40,j*40,40,40,QPixmap(":/Gamepic/water.png"));
+                    break;
+                case 6:
+                    p.drawPixmap(i*40,j*40,40,40,QPixmap(":/Gamepic/tree.png"));
+                    break;
+
+
+                }
+            //画上家
+                p.drawPixmap(homepos->x, homepos->y, 120, 120, QPixmap(":/Gamepic/home2.png")); //最后画出家
+             }
+
+    }
 }
 //画出选塔框
 void Gameworld::paintSelectionBox(QPainter &p){
@@ -296,7 +439,7 @@ void Gameworld::paintTower(QPainter &p){
 void Gameworld:: paintcircle(QPainter&p){
     for (auto aTower:TowerVec)  //遍历塔数组
     {
-      // 如果有目标就攻击
+      // 如果有目标就画
         if(aTower->GetAimMonster()!=NULL)
         {
             if(aTower->GetId()==1)
@@ -410,17 +553,17 @@ void Gameworld::mousePressEvent(QMouseEvent *ev){
            switch (i)
            {
            case 0: //一级炮塔
-               if (Ifmoneyenough(100)==false) return;    //扣除金钱
+               if (Ifmoneyenough(300)==false) return;    //扣除金钱
               TowerVec.push_back(new Towerone(Selectbox->Getx()+87, Selectbox->Gety()+90,
                                      Selectbox->Getx()+85, Selectbox->Gety()+90,80,80));
                break;
            case 1: //二级炮塔
-               if (Ifmoneyenough(200)==false) return;    //扣除金钱
+               if (Ifmoneyenough(400)==false) return;    //扣除金钱
               TowerVec.push_back(new Towertwo(Selectbox->Getx()+87, Selectbox->Gety()+90,
                                      Selectbox->Getx()+85, Selectbox->Gety()+90,80,80));
                break;
            case 2: //三级炮塔
-               if (Ifmoneyenough(300)==false) return;//扣除金钱
+               if (Ifmoneyenough(500)==false) return;//扣除金钱
               TowerVec.push_back(new Towerthree(Selectbox->Getx()+87, Selectbox->Gety()+90,
                                      Selectbox->Getx()+85, Selectbox->Gety()+90,80,80));
                break;

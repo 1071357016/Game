@@ -36,5 +36,14 @@
         <file>Gamepic/turret1.png</file>
         <file>Gamepic/turret2.png</file>
         <file>Gamepic/home.png</file>
+        <file>Gamepic/water.png</file>
+        <file>Gamepic/gameover.png</file>
+        <file>Gamepic/home2.png</file>
+        <file>Gamepic/home3.png</file>
+        <file>Gamepic/road2.png</file>
+        <file>Gamepic/snow.png</file>
+        <file>Gamepic/stone.png</file>
+        <file>Gamepic/tree.png</file>
+        <file>Gamepic/tree2.png</file>
     </qresource>
 </RCC>

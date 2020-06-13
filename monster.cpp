@@ -26,11 +26,11 @@ Monster::Monster(int x1,int y1,Point** path1,int NumOfPathPoint1,int id):x(x1),y
             this->width=50;
             this->height=50;
             this->value=100;
-             this->speed=7;
+             this->speed=10;
             MonsterPic=":/Gamepic/master2.png";
             break;
     case 3:
-            //三级怪爆爆雪人 生命值180 大小60*60 打死获得金钱180块
+            //三级怪 生命值180 大小60*60 打死获得金钱180块
             this->life=180;
             this->width=60;
             this->height=60;
@@ -59,37 +59,34 @@ bool Monster::MonsterMove(){
     if(path.empty())
         return true;
 
-    //如果第一个路径点的y大于怪物原本的路径点y，则怪物向上走
-    if (path.at(0)->y<y) //上
+        //重合则删除此路径点
+      if (path.at(0)->y==this->y && path.at(0)->x==this->x)
+       {
+           path.erase(path.begin());
+           return false;
+       }
+
+    if (path.at(0)->y<y) //下
     {
         y=y-speed;
-        return false;
+       // return false;
     }
     if (path.at(0)->x>x) //右
     {
         x=x+speed;
-        return false;
+       // return false;
     }
     //同理
     if (path.at(0)->y>y) //下
     {
         y=y+speed;
-        return false;
+        //return false;
     }
     //不上不下再看左右
     if (path.at(0)->x<x) //左
     {
         x=x-speed;
-        return false;
-    }
-
-
-
-     //重合则删除此路径点
-    if (path.at(0)->y==this->y && path.at(0)->x==this->x)
-    {
-        path.erase(path.begin());
-
+       // return false;
     }
     return false;
 }

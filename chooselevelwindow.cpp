@@ -26,10 +26,25 @@ ChooseLevelwindow::ChooseLevelwindow(QWidget *parent) : QMainWindow(parent)
     //关卡二
     level2button->setParent(this);
     level2button->move(600,300);
+    connect(level2button,&MyPushButton::clicked,this,[=]{
+        //切换到选择关卡场景
+        //this->hide();
+        Gameworld *gameworld2;
+        gameworld2=new Gameworld(2);
+        gameworld2->show();//展示第一关游戏世界1
+    });
 
     //关卡三
     level3button->setParent(this);
     level3button->move(1000,300);
+    connect(level3button,&MyPushButton::clicked,this,[=]{
+        //切换到选择关卡场景
+        //this->hide();
+        Gameworld *gameworld3;
+        gameworld3=new Gameworld(3);
+        gameworld3->show();//展示第一关游戏世界1
+    });
+
 }
 
 void ChooseLevelwindow::paintEvent(QPaintEvent *)
