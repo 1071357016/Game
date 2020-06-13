@@ -15,5 +15,6 @@ int TowerPit::GetWidth() const{
     return this->width;
     }
 int TowerPit::GetHeight() const{
+
     return this->height;
     }

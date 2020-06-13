@@ -118,3 +118,7 @@ QString TowerParent::GetBulletPic() const{
 QVector<Bullet*> TowerParent::GetBulletVec()const{
       return this->BulletVec;
 }
+//获取塔的类型
+int TowerParent::GetId(){
+    return this->id;
+}

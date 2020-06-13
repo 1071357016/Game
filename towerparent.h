@@ -17,7 +17,7 @@ protected:
     int width, height;        // 记录塔的宽高
     int PitX, PitY;           //防御塔塔坑左上角坐标
     int ShootRange;           //防御塔的射程
-
+    int id;
 
     //QString TowerBasePic;     //防御塔底座图片路径
     QString TowerPic;        //防御塔图片路径
@@ -72,6 +72,7 @@ public:
     //6.14改变方向 攻击函数
     //判断是否攻击
     bool ifTowerAttack();
+    int GetId();
 
 
 };

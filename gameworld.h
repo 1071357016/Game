@@ -63,6 +63,8 @@ private:
     void paintMonster(QPainter&);
     //画出子弹
     void paintbullet(QPainter&);
+    //画出攻击圈
+    void paintcircle(QPainter&);
     //整体画图事件 里边画地图 画。。。。。
     void paintEvent(QPaintEvent *);
 

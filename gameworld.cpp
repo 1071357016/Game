@@ -24,7 +24,7 @@ Gameworld::Gameworld(int i):level(i){
     pe.setColor(QPalette::WindowText,Qt::red);
     lifelable->setPalette(pe);
     lifelable->setGeometry(20, 10, 180, 30);
-    lifelable->setFont(QFont("STHeiti", 20));
+    lifelable->setFont(QFont("华康海报体W12(P)", 20));
     lifelable->setText(QString("生命：%1").arg(mylife));
 
 
@@ -33,8 +33,8 @@ Gameworld::Gameworld(int i):level(i){
     QPalette pe2;
     pe2.setColor(QPalette::WindowText,Qt::yellow);
     moneylable->setPalette(pe2);
-    moneylable->setGeometry(220, 10, 180, 30);
-    moneylable->setFont(QFont("STHeiti", 20));
+    moneylable->setGeometry(700, 10, 180, 30);
+    moneylable->setFont(QFont("Sylfaen", 20));
     moneylable->setText(QString("金钱：%1").arg(money));
     //每时每刻产生构造怪物产生路径并传入怪物,时间间隔控制产生怪物间隔
     QTimer* timer2 = new QTimer(this);
@@ -74,9 +74,10 @@ Gameworld::Gameworld(int i):level(i){
     connect(timer3,&QTimer::timeout,[=]()
     {
 
-        //通过调用怪物移动函数刷新怪物位置
+
         for (auto aMonster=MonsterVec.begin();aMonster!= MonsterVec.end(); aMonster++)
            {
+            //判断怪物生命值
             if((*aMonster)->getlife()<=0)
             {
                money=money+(*aMonster)->getvalue();
@@ -85,6 +86,7 @@ Gameworld::Gameworld(int i):level(i){
                MonsterVec.erase(aMonster);
                break;
             }
+            //通过调用怪物移动函数刷新怪物位置
              if((*aMonster)->MonsterMove()) //怪物闯入家
               {
                  delete *aMonster;
@@ -130,7 +132,7 @@ Gameworld::Gameworld(int i):level(i){
                                        if(aTower->ifTowerAttack())
                                        {
                                            aTower->GetAimMonster()->SetLife(aTower->GetAttack());
-                                                if(aTower->GetAimMonster()->getlife()>0)
+                                                if(aTower->GetAimMonster()->getlife()<0)
                                                 {
                                                       //MonsterVec.erase(aTower->GetAimMonster());
                                                        aTower->SetAimsMonster(NULL);
@@ -148,7 +150,7 @@ Gameworld::Gameworld(int i):level(i){
                         // }
                   }
            //qDebug()<<"BulletMove";
-          aTower->BulletMove();
+          //aTower->BulletMove();
         }
 
 
@@ -284,9 +286,35 @@ void Gameworld::paintTower(QPainter &p){
     {
          //qDebug()<<"drawTower";
         p.drawPixmap(aTower->GetX(), aTower->GetY(), aTower->GetWidth(), aTower->GetHeight(), QPixmap(aTower->GetTowerPicPath()));
-
+//        if(aTower->GetAimMonster()!=NULL)
+//        p.drawEllipse(QPoint(aTower->GetPitX()+40,aTower->GetPitY()+40),aTower->GetShootrange(),aTower->GetShootrange());
 
         //p.resetTransform();   //重置调整
+    }
+}
+//画出攻击圈
+void Gameworld:: paintcircle(QPainter&p){
+    for (auto aTower:TowerVec)  //遍历塔数组
+    {
+      // 如果有目标就攻击
+        if(aTower->GetAimMonster()!=NULL)
+        {
+            if(aTower->GetId()==1)
+                {
+                     p.setPen(QPen(Qt::red));  //使用红色画出范围
+                     p.drawEllipse(QPoint(aTower->GetPitX()+40,aTower->GetPitY()+40),aTower->GetShootrange(),aTower->GetShootrange());
+                 }
+            if(aTower->GetId()==2)
+                {
+                     p.setPen(QPen(Qt::green));  //使用绿色画出范围
+                     p.drawEllipse(QPoint(aTower->GetPitX()+40,aTower->GetPitY()+40),aTower->GetShootrange(),aTower->GetShootrange());
+                 }
+            if(aTower->GetId()==3)
+                {
+                     p.setPen(QPen(Qt::red));  //使用红色画出范围
+                     p.drawEllipse(QPoint(aTower->GetPitX()+40,aTower->GetPitY()+40),aTower->GetShootrange(),aTower->GetShootrange());
+                 }
+        }
     }
 }
 //画出子弹
@@ -319,6 +347,7 @@ void Gameworld::paintEvent(QPaintEvent *)
     paintTower(painter);
     paintMonster(painter);
     paintbullet(painter);
+    paintcircle(painter);
 }
 
 //判断金钱够不够设塔 、升级等等
@@ -383,17 +412,17 @@ void Gameworld::mousePressEvent(QMouseEvent *ev){
            case 0: //一级炮塔
                if (Ifmoneyenough(100)==false) return;    //扣除金钱
               TowerVec.push_back(new Towerone(Selectbox->Getx()+87, Selectbox->Gety()+90,
-                                     Selectbox->Getx()+85, Selectbox->Gety()+90,86,86));
+                                     Selectbox->Getx()+85, Selectbox->Gety()+90,80,80));
                break;
            case 1: //二级炮塔
                if (Ifmoneyenough(200)==false) return;    //扣除金钱
               TowerVec.push_back(new Towertwo(Selectbox->Getx()+87, Selectbox->Gety()+90,
-                                     Selectbox->Getx()+85, Selectbox->Gety()+90,86,86));
+                                     Selectbox->Getx()+85, Selectbox->Gety()+90,80,80));
                break;
            case 2: //三级炮塔
                if (Ifmoneyenough(300)==false) return;//扣除金钱
               TowerVec.push_back(new Towerthree(Selectbox->Getx()+87, Selectbox->Gety()+90,
-                                     Selectbox->Getx()+85, Selectbox->Gety()+90,86,86));
+                                     Selectbox->Getx()+85, Selectbox->Gety()+90,80,80));
                break;
 
            default:

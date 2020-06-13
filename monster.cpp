@@ -12,16 +12,16 @@ Monster::Monster(int x1,int y1,Point** path1,int NumOfPathPoint1,int id):x(x1),y
     //根据怪物型号确定不同属性
     switch (type)
     {case 1:
-        //一级怪小黑黑 生命值50 大小40*40 打死获得金钱50块 速度为5慢慢慢
+        //一级怪 生命值50 大小40*40 打死获得金钱50块 速度为5慢慢慢
         this->life=50;
-        this->width=40;
-        this->height=40;
+        this->width=50;
+        this->height=60;
         this->value=50;
         this->speed=5;
         MonsterPic=":/Gamepic/master1.png";
         break;
     case 2:
-            //二级怪带角小黑黑 生命值80 大小50*50 打死获得金钱100块
+            //二级怪 生命值80 大小50*50 打死获得金钱100块
             this->life=80;
             this->width=50;
             this->height=50;
