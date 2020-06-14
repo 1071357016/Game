@@ -18,13 +18,13 @@ void SelectBox::ChooseTower(int x1, int y1){
     //设置子按钮显示的位置
     //上方子按钮位置及对应的大炮图片
     selectbut[0].x=this->x+90,selectbut[0].y =this->y+5;
-    selectbut[0].SubPicPath=QString(":/Gamepic/turret1.png");
+    selectbut[0].SubPicPath=QString(":/Gamepic/tanzhilang1.png");
     //重复以上过程
     selectbut[1].x=this->x +10,selectbut[1].y =this->y+90;
-    selectbut[1].SubPicPath=QString(":/Gamepic/turret2.png");
+    selectbut[1].SubPicPath=QString(":/Gamepic/lianzhu1.png");
 
     selectbut[2].x=this->x+170,selectbut[2].y =this->y+90;
-    selectbut[2].SubPicPath=QString(":/Gamepic/turret3.png");
+    selectbut[2].SubPicPath=QString(":/Gamepic/yanzhu1.png");
 
     this->show=true;
 }

@@ -45,5 +45,8 @@
         <file>Gamepic/stone.png</file>
         <file>Gamepic/tree.png</file>
         <file>Gamepic/tree2.png</file>
+        <file>Gamepic/lianzhu1.png</file>
+        <file>Gamepic/tanzhilang1.png</file>
+        <file>Gamepic/yanzhu1.png</file>
     </qresource>
 </RCC>

@@ -45,7 +45,7 @@ Monster::Monster(int x1,int y1,Point** path1,int NumOfPathPoint1,int id):x(x1),y
             this->height=80;
             this->value=300;
             this->speed=10;
-            MonsterPic=":/Gamepic/master4.png";
+            MonsterPic=":/Gamepic/master00.gif";
             break;
     }
 

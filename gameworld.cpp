@@ -88,6 +88,22 @@ Gameworld::Gameworld(int i):level(i){
 
             break;
         }
+        case 3:
+        {
+            //设置路径点  第一关没有拐弯的地方，第一个拐点就是出发点，最后一个拐点即 家的坐标。
+           Point* path1[] = {new Point(160, 100),new Point(740,100),new Point(740,500),new Point(1000,500)};
+           Point* path2[] = {new Point(90,260),new Point(90,540),new Point(380,540),new Point(380,260),new Point(740,260),new Point(740,500),new Point(1000,500)};
+            //怪物的起始点数组MonsterStart，都规定好的
+            Point start1(160,0);
+            Point start2(0,280);
+            Point MonsterStart[]={start1,start2};
+
+            //每条路径的结点个数,第一关两条路径都是一样的，相当于都是2个拐点
+           int PathPoint[2] = {4,7};
+           ProduceMonster(path1,path2,MonsterStart,PathPoint);
+
+            break;
+        }
 
       }
     });
@@ -250,6 +266,41 @@ if(level==2)
         return;
     }
    }
+if(level==3)
+ {
+    if(this->TimeMonsterNum>=0&&this->TimeMonsterNum<=7)
+    {
+        //开始游戏怪物数目1~7时，只有一条路产生编号1的小黑黑怪
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
+
+    }
+    if(this->TimeMonsterNum>7&&this->TimeMonsterNum<=12)
+    {
+
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],2);
+        InsertMonster(Path2,StartPoint[1],NumOfPoint[1],3);
+
+    }
+    if(this->TimeMonsterNum>12&&this->TimeMonsterNum<=18)
+    {
+
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],3);
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],2);
+        InsertMonster(Path2,StartPoint[1],NumOfPoint[1],4);
+
+    }
+    if(this->TimeMonsterNum>18&&this->TimeMonsterNum<=24)
+    {
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],4);
+        InsertMonster(Path2,StartPoint[1],NumOfPoint[1],3);
+    }
+    if(this->TimeMonsterNum>24&&MonsterVec.empty()&&flag==0)
+    {
+        winlable->show();
+        return;
+    }
+   }
     TimeMonsterNum++;
     return;
 
@@ -301,12 +352,30 @@ void Gameworld::paintmap(QPainter &p){
         0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 6, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
         0, 0, 6, 0, 0, 0, 6, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 9, 0, 0, 0, 0,
         0, 6, 0, 0, 0, 0, 0, 6, 0, 1, 1, 0, 0, 6, 0, 0, 0, 0, 1, 1, 9, 9, 6, 3, 0, 0,
-        0, 0, 6, 0, 0, 0, 0, 0, 0, 1, 1, 0, 6, 0, 0, 0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-        6, 6, 0, 0, 6, 0, 0, 0, 0, 1, 1, 0, 0, 6, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        0, 0, 6, 0, 0, 0, 0, 0, 0, 1, 1, 2, 9, 0, 0, 0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        6, 6, 0, 0, 6, 0, 0, 0, 0, 1, 1, 9, 9, 6, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
         6, 6, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         6, 0, 6, 0, 0, 0, 6, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0,
     };
 
+    int Map3[16][26]={
+        0, 0, 0, 1, 1, 6, 6, 0, 0, 0, 6, 7, 7, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 0, 0,
+        0, 0, 0, 1, 1, 6, 6, 0, 6, 0, 0, 7, 7, 0, 0, 6, 0, 0, 6, 6, 6, 6, 6, 0, 0, 0,
+        6, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 9, 0, 0, 0, 0,
+        0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9, 6, 0, 0, 6,
+        0, 0, 0, 2, 9, 0, 6, 0, 0, 0, 0, 7, 7, 2, 9, 6, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 9, 9, 0, 0, 0, 0, 0, 0, 7, 7, 9, 9, 0, 0, 0, 1, 1, 0, 0, 0, 6, 0, 0,
+        1, 1, 1, 1, 0, 0, 0, 2, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 0, 0, 0, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 7, 7, 6, 0, 6, 2, 9, 1, 1, 0, 0, 0, 0, 0, 0,
+        6, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 7, 7, 6, 0, 0, 9, 9, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 1, 1, 0, 0, 6, 0, 0, 1, 1, 7, 7, 0, 0, 0, 0, 0, 1, 1, 2, 9, 0, 0, 0, 0,
+        0, 6, 1, 1, 2, 9, 0, 6, 0, 1, 1, 0, 7, 7, 0, 0, 0, 0, 1, 1, 9, 9, 6, 3, 0, 0,
+        0, 0, 1, 1, 9, 9, 0, 0, 0, 1, 1, 0, 6, 7, 7, 0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        6, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 6, 7, 7, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 6, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        6, 0, 6, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0, 6, 0, 0, 0, 0, 0,
+    };
 
 
 
@@ -322,9 +391,9 @@ void Gameworld::paintmap(QPainter &p){
     case 2:
         memcpy(Map, Map2,sizeof(Map));
         break;
-//   case3:
-//        memcpy(Map,Map3,sizeof(Map));
-//        break;
+   case 3:
+        memcpy(Map,Map3,sizeof(Map));
+        break;
     default:
         break;
     }
@@ -403,6 +472,52 @@ void Gameworld::paintmap(QPainter &p){
              }
 
     }
+    if(level==3)
+    {
+        for (int j = 0; j < 16; j++)
+            for (int i = 0; i<26;i++)
+            {
+                switch (Map[j][i])
+                {
+                case 0:     //画上树
+                    p.drawPixmap(i * 40, j * 40, 40, 40,QPixmap(":/Gamepic/snow.png"));
+                    break;
+                case 1:     //画上路
+                    p.drawPixmap(i * 40, j * 40, 40, 40,QPixmap(":/Gamepic/road.png"));
+                    break;
+                case 2:     //画上塔坑,同时初始化塔坑数组的一个成员并插入数组
+                    p.drawPixmap(i * 40, j * 40, 80, 80,QPixmap(":/Gamepic/pit.png"));
+                    TowerpitVec.push_back(new TowerPit(i * 40, j * 40));
+                    break;
+
+                case 3://记录家的坐标，留到最后画
+                    p.drawPixmap(i * 40, j * 40, 80, 80,
+                        QPixmap(":/Gamepic/snow.png"));  //暂时画上草，最后添上家 防止背景空白
+                    homepos->x=i*40;homepos->y=j*40;
+                    break;
+                case 4: //画上花花
+                    p.drawPixmap(i*40,j*40,40,40,QPixmap(":/Gamepic/flower.png"));
+                    break;
+                case 7://画水
+                    p.drawPixmap(i*40,j*40,40,40,QPixmap(":/Gamepic/water.png"));
+                    break;
+                case 6:
+                    p.drawPixmap(i*40,j*40,40,40,QPixmap(":/Gamepic/tree.png"));
+                    break;
+
+
+                }
+            //画上家
+                p.drawPixmap(homepos->x, homepos->y, 120, 120, QPixmap(":/Gamepic/home3.png")); //最后画出家
+             }
+
+    }
+
+
+
+
+
+
 }
 //画出选塔框
 void Gameworld::paintSelectionBox(QPainter &p){

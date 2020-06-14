@@ -258,3 +258,31 @@
 
 
 ————————实现的功能：第一二关基本版本的实现——————————
+
+
+##2020/6/13
+  修改了一些资源文件
+   ###Added：
+
+       1.Gameworld类：
+        函数:
+        - Gameworld构造函数：
+        第2、3关怪物的路径点及插入怪物设置
+        -Paintmap
+        添加了绘制3关迪图
+
+
+   ###Changed:
+      1.Gameworld类：
+         添加了数据成员flag用来修复同时出现WIN LOSE的bug
+      2.Towerone two three
+         修改了攻击参数设置
+   ###Removed:
+      1.Towerparent类
+      删去了有关子弹运动的函数
+        TowerParent::InsertBullet()
+        TowerParent::BulletMove()
+
+
+————————实现的功能：第一二三关基本版本的实现：地图绘制，游戏难度随时间增长加大，塔的范围攻击。目标怪物设置——————————
+

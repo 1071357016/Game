@@ -15,5 +15,5 @@ Towertwo::Towertwo(int x1,int y1,int pitx, int pity,int width1,int height1)
     BulletPic=QString(":/Gamepic/bullet1.png");
     bulletwidth=20;
     bulletheight=20;
-    attack=15;
+    attack=25;
 }
