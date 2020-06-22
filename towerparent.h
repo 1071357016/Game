@@ -59,15 +59,12 @@ public:
     int GetBulletHeight() const;    //获取子弹的高度
     int  GetShootrange()const;  //获取攻击范围半径
     Monster* GetAimMonster() const;//获取当前炮塔的目标怪物
-    QString GetBulletPic() const;  //返回防御塔子弹图片路径
-    QVector<Bullet*>  GetBulletVec()const;//返回子弹数组
 
-    //控制子弹相关函数
-    void InsertBullet();             //向子弹数组插入子弹
+
 
     void SetAimsMonster(Monster*);  //设置当前防御塔的目标怪物
 
-    void BulletMove();              //子弹移动函数
+
 
     //6.14改变方向 攻击函数
     //判断是否攻击
