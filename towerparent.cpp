@@ -47,14 +47,7 @@ Monster* TowerParent::GetAimMonster() const{
 int  TowerParent::GetShootrange()const{
     return this->ShootRange;
 }
-//返回防御塔子弹图片路径
-QString TowerParent::GetBulletPic() const{
-    return this->BulletPic;
-}
-//获取子弹数组
-QVector<Bullet*> TowerParent::GetBulletVec()const{
-      return this->BulletVec;
-}
+
 //获取塔的类型
 int TowerParent::GetId(){
     return this->id;

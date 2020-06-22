@@ -673,20 +673,7 @@ void Gameworld::paintlifebar(QPainter &p)
     }
 }
 //画出子弹
-void Gameworld::paintbullet(QPainter &p){
-    for (auto aTower:TowerVec)  //遍历塔数组
-    {
-        qDebug()<<" zhunbei   draw   bullet";
-        //for(int i=aTower->BulletVec.size()-1;i>=0; i--)
-        for(auto abullet : aTower->BulletVec)
-        {
-         qDebug()<<"!!! jinru   draw bullet";
-         p.drawPixmap(abullet->Getx(),abullet->Gety(),aTower->GetBulletWidth(),aTower->GetBulletHeight(),QPixmap(aTower->GetBulletPic()));
-           //p.drawPixmap(aTower->BulletVec.at(i)->Getx(),aTower->BulletVec.at(i)->Gety(),aTower->GetBulletWidth(),aTower->GetBulletHeight(),QPixmap(aTower->GetBulletPic()));
-         }
 
-    }
-}
 //画出怪物
 void Gameworld::paintMonster(QPainter&p){
     for(auto aMonster:MonsterVec)//遍历怪物数组并画出
@@ -701,7 +688,7 @@ void Gameworld::paintEvent(QPaintEvent *)
     paintSelectionBox(painter);
     paintTower(painter);
     paintMonster(painter);
-    paintbullet(painter);
+
     paintcircle(painter);
     paintupgrade(painter);
     paintlifebar(painter);

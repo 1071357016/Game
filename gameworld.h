@@ -79,8 +79,7 @@ private:
     void paintTower(QPainter&);
     //画怪物事件
     void paintMonster(QPainter&);
-    //画出子弹
-    void paintbullet(QPainter&);
+
     //画出攻击圈
     void paintcircle(QPainter&);
     //画出升级按钮（点击塔时）
