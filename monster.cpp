@@ -13,7 +13,7 @@ Monster::Monster(int x1,int y1,Point** path1,int NumOfPathPoint1,int id):x(x1),y
     switch (type)
     {case 1:
         //一级怪 生命值50 大小40*40 打死获得金钱50块 速度为5慢慢慢
-        this->life=50;
+        this->life=60;
         this->width=50;
         this->height=60;
         this->value=50;
@@ -44,10 +44,11 @@ Monster::Monster(int x1,int y1,Point** path1,int NumOfPathPoint1,int id):x(x1),y
             this->width=80;
             this->height=80;
             this->value=300;
-            this->speed=10;
+            this->speed=15;
             MonsterPic=":/Gamepic/master00.gif";
             break;
     }
+    fulllife=life;
 
 }
 

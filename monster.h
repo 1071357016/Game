@@ -24,6 +24,7 @@ public:
     int getheight(){return height;}
     int getvalue(){return value;}
     int getlife(){return life;}
+    int getfulllife(){return fulllife;}
     QString getMonsterPic(){return  MonsterPic;}
 
     //被击中后重置生命值
@@ -39,6 +40,7 @@ private:
     QString MonsterPic;//怪物图片
     int value;//击败你能获得的钱
     int life;//生命值
+    int fulllife;//完整生命值v 用来画血条
     int speed;//速度
 };
 

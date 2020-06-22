@@ -286,3 +286,81 @@
 
 ————————实现的功能：第一二三关基本版本的实现：地图绘制，游戏难度随时间增长加大，塔的范围攻击。目标怪物设置——————————
 
+##2020/6/16
+  增加了塔的升级功能
+  bug： 点击塔后如果不点击升级按钮他会一直存在
+
+   ###Added：
+
+       1.Gameworld类：
+        数据成员：
+        -UpgradeShow:bool
+        -upgradex,upgradey:int 记录显示升级按钮的塔坐标
+        函数:
+        -paintupgrade 画出升级标签
+
+          另外利用QTimer实现了胜利失败后界面暂留5秒自动关闭
+
+       2.TowerParent类：
+        函数：升级实现：重设塔的参数的函数
+        void SetAttack(int newattack);     //设置防御塔攻击力
+        void SetWidthHeight();  //设置防御塔宽高实现视觉上的变大
+        void SetRange(int newrange);      //设置防御塔的攻击范围
+
+
+
+
+   ###Changed:
+      1.Gameworld类：
+       函数
+         -mousePressEvent//添加了对点击升级按钮的事件处理
+   ###Removed:
+
+
+
+##2020/6/22
+  bug修复 ： 在鼠标点击函数最后把升级显示按钮设为false即可 这样点击别处按钮就消失不见了~
+  新的bug:   音乐在关闭游戏窗口后还会一直播放
+  添加功能：  实现怪物血条显示
+   ###Added：
+
+       1.Gameworld类：
+       数据成员：
+       QMediaPlayer * player，1,2,3 //音乐播放器
+       函数：
+       void paintlifebar(QPainter&);//画出怪物生命条
+
+   ###Changed:
+      1.Gameworld类：
+       函数
+         构造函数和怪物插入函数中加入了音乐播放，实现背景音乐和胜利失败音乐
+         但是出现了关掉游戏窗口后音乐会继续播放的bug
+   ###Removed:
+
+
+##2020/6/23
+  bug修复 ：重载了Mainwindow的closeevent,解决音乐一直播放的问题
+           另外考虑到塔不能一直升级，修复了出现“超级塔”的bug
+   ###Added：
+
+       1.Gameworld类：
+        -closeEvent: 加入player->stop使关闭窗口音乐停止
+
+       2.TowerParent类：
+        函数：升级实现：重设塔的参数的函数
+        void SetAttack(int newattack);     //设置防御塔攻击力
+        void SetWidthHeight();  //设置防御塔宽高实现视觉上的变大
+        void SetRange(int newrange);      //设置防御塔的攻击范围
+
+
+
+
+   ###Changed:
+      1.Gameworld类：
+       mousePressEvent :修改了点击升级按钮 如果塔达到一定级别升级无效
+
+
+
+   ###Removed:
+——————————到现在基本想实现的功能已经基本实现了： 关卡选择，游戏随时间增长难度加大，塔对怪物的攻击，
+           塔的升级，怪物的生命值显示以及一些背景音乐。——————————————

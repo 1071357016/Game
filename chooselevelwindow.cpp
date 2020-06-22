@@ -11,7 +11,7 @@ ChooseLevelwindow::ChooseLevelwindow(QWidget *parent) : QMainWindow(parent)
 
     //关卡一
     level1button->setParent(this);
-    level1button->move(200,300);
+    level1button->move(200,200);
 
 
     //点击按键进入游戏世界1
@@ -21,11 +21,13 @@ ChooseLevelwindow::ChooseLevelwindow(QWidget *parent) : QMainWindow(parent)
         Gameworld *gameworld1;
         gameworld1=new Gameworld(1);
         gameworld1->show();//展示第一关游戏世界1
+
     });
+
 
     //关卡二
     level2button->setParent(this);
-    level2button->move(600,300);
+    level2button->move(600,200);
     connect(level2button,&MyPushButton::clicked,this,[=]{
         //切换到选择关卡场景
         //this->hide();
@@ -36,7 +38,7 @@ ChooseLevelwindow::ChooseLevelwindow(QWidget *parent) : QMainWindow(parent)
 
     //关卡三
     level3button->setParent(this);
-    level3button->move(1000,300);
+    level3button->move(1000,200);
     connect(level3button,&MyPushButton::clicked,this,[=]{
         //切换到选择关卡场景
         //this->hide();
@@ -51,7 +53,7 @@ void ChooseLevelwindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     QPixmap pix;
-    pix.load(":/Gamepic/grass.png");
+    pix.load(":/Gamepic/grass2.png");
     painter.drawPixmap(0, 0,this->width(),this->height(), pix);
 
 

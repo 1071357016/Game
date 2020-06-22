@@ -122,3 +122,19 @@ QVector<Bullet*> TowerParent::GetBulletVec()const{
 int TowerParent::GetId(){
     return this->id;
 }
+void TowerParent::SetAttack(int newattack){
+    this->attack=attack+newattack;
+}
+
+void TowerParent::SetWidthHeight()
+{
+    this->width+=3;
+    this->height+=3;
+    this->x-=2;
+    this->y-=2;
+}
+
+
+void TowerParent::SetRange(int newrange){
+    this->ShootRange=ShootRange+newrange;
+}

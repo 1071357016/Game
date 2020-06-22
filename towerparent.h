@@ -74,6 +74,11 @@ public:
     bool ifTowerAttack();
     int GetId();
 
+    //升级重设塔的参数
+    void SetAttack(int newattack);            //设置防御塔攻击力
+    void SetWidthHeight();  //设置防御塔宽高
+    void SetRange(int newrange);                //设置防御塔的攻击范围
+
 
 };
 

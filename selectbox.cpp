@@ -12,6 +12,7 @@ void SelectBox::Setshow(bool setshow){
 //选择防御塔函数，传入的参数是每一个塔坑的左上角坐标
 void SelectBox::ChooseTower(int x1, int y1){
 
+
     //根据塔坑坐标 确定选择框左上角坐标 这个需要计算实验才能完美贴合
      this->x=x1-85;this->y=y1-90;
 

@@ -13,6 +13,12 @@ Gameworld::Gameworld(int i):level(i){
     setFixedSize(1040, 640);//为了方便设置地图修改了界面大小
     setWindowIcon(QIcon(":/Gamepic/bgtry.png"));
 
+    //播放背景音乐
+    player->setMedia(QUrl("qrc:/Gamepic/Music2.mp3"));
+    player->setVolume(100);
+    player->play();
+
+
 
     //胜利及失败标签
     QPalette pe3;
@@ -134,16 +140,30 @@ Gameworld::Gameworld(int i):level(i){
               {
                       delete *aMonster;
                             MonsterVec.erase(aMonster);         //怪物走到终点则删除这个怪物
-
+                            player2->setMedia(QUrl("qrc:/Gamepic/hurt2.mp3"));
+                            player2->setVolume(100);
+                            player2->play();
                                 this->mylife--;                         //我们的生命数量-1
                                lifelable->setText(QString("生命：%1").arg(mylife));
 
                                if (mylife<= 0)
                                {
-                                   loselable->show();
+                                    player->stop();
+                                   player3->setMedia(QUrl("qrc:/Gamepic/lose.mp3"));
+                                   player3->setVolume(100);
+                                   player3->play();
                                    MonsterVec.clear();
+                                   loselable->show();
                                    flag=1;
-                                   // this->close();   //生命值为0时关闭该窗口
+                                   timer2->stop();
+                                   QTimer* timer4= new QTimer(this);
+                                   timer4->start(4000);
+
+                                   connect(timer4,&QTimer::timeout,[=](){
+                                       player->stop();
+                                       this->close();
+                                   }
+                                  );  //生命值为0时关闭该窗口
                                }
                 break;
                }
@@ -212,27 +232,49 @@ Gameworld::Gameworld(int i):level(i){
 }
 
 
+
+
 //生成怪物事件
 void Gameworld::ProduceMonster(Point** Path1,Point** Path2,Point* StartPoint, int* NumOfPoint){
 
 if(level==1)
  {
-    if(this->TimeMonsterNum>=0&&this->TimeMonsterNum<=10)
+    if(this->TimeMonsterNum>=0&&this->TimeMonsterNum<=8)
     {
         //开始游戏怪物数目1~10时，只有一条路产生编号1的小黑黑怪
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
 
     }
-    if(this->TimeMonsterNum>10&&this->TimeMonsterNum<=17)
+    if(this->TimeMonsterNum>8&&this->TimeMonsterNum<=12)
     {
 
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
         InsertMonster(Path2,StartPoint[1],NumOfPoint[1],2);
 
     }
+    if(this->TimeMonsterNum>12&&this->TimeMonsterNum<=17)
+    {
+
+        InsertMonster(Path1,StartPoint[0],NumOfPoint[0],2);
+        InsertMonster(Path2,StartPoint[1],NumOfPoint[1],3);
+
+    }
     if(this->TimeMonsterNum>17&&MonsterVec.empty()&&flag==0)
     {
         winlable->show();
+        player->stop();
+        player4->setMedia(QUrl("qrc:/Gamepic/win.mp3"));
+        player4->setVolume(100);
+        player4->play();
+        QTimer* timer5= new QTimer(this);
+        timer5->start(4000);
+
+        connect(timer5,&QTimer::timeout,[=](){
+         //player->stop();
+         player4->stop();
+         this->close();
+        }
+       ); //关闭窗口
         return;
     }
    }
@@ -263,6 +305,18 @@ if(level==2)
     if(this->TimeMonsterNum>18&&MonsterVec.empty()&&flag==0)
     {
         winlable->show();
+        player->stop();
+        player4->setMedia(QUrl("qrc:/Gamepic/win.mp3"));
+        player4->setVolume(100);
+        player4->play();
+        QTimer* timer5= new QTimer(this);
+        timer5->start(4000);
+
+        connect(timer5,&QTimer::timeout,[=](){
+            player4->stop();
+         this->close();
+        }
+       ); //关闭窗口
         return;
     }
    }
@@ -274,14 +328,14 @@ if(level==3)
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
 
     }
-    if(this->TimeMonsterNum>7&&this->TimeMonsterNum<=12)
+    if(this->TimeMonsterNum>7&&this->TimeMonsterNum<=14)
     {
 
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],2);
         InsertMonster(Path2,StartPoint[1],NumOfPoint[1],3);
 
     }
-    if(this->TimeMonsterNum>12&&this->TimeMonsterNum<=18)
+    if(this->TimeMonsterNum>14&&this->TimeMonsterNum<=18)
     {
 
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],3);
@@ -298,6 +352,19 @@ if(level==3)
     if(this->TimeMonsterNum>24&&MonsterVec.empty()&&flag==0)
     {
         winlable->show();
+        player->stop();
+        player4->setMedia(QUrl("qrc:/Gamepic/win.mp3"));
+        player4->setVolume(100);
+        player4->play();
+        QTimer* timer5= new QTimer(this);
+        timer5->start(4000);
+
+        connect(timer5,&QTimer::timeout,[=](){
+         player4->stop();
+         this->close();
+        }
+       ); //关闭窗口
+
         return;
     }
    }
@@ -324,14 +391,14 @@ void Gameworld::paintmap(QPainter &p){
         0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        4, 0, 0, 0, 0, 0, 0, 0, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        4, 0, 0, 0, 0, 0, 0, 0, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 0, 0, 0, 0, 0, 0,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0,
+        0, 0, 0, 2, 9, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 4, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -345,16 +412,16 @@ void Gameworld::paintmap(QPainter &p){
         0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 6,
         1, 1, 1, 1, 1, 0, 0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 1, 1, 0, 6, 2, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 6, 0, 0, 0,
-        0, 0, 0, 1, 1, 0, 0, 9, 9, 1, 1, 0, 0, 0, 0, 0, 2, 9, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 1, 1, 2, 9, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 6, 0, 0, 0,
+        0, 0, 0, 1, 1, 9, 9, 0, 6, 1, 1, 0, 0, 0, 0, 0, 2, 9, 1, 1, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 6, 0, 9, 9, 1, 1, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 6, 0, 6, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 6, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
-        0, 0, 6, 0, 0, 0, 6, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 9, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 2, 9, 1, 1, 0, 0, 6, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 6, 0, 0, 0, 6, 9, 9, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 9, 0, 0, 0, 0,
         0, 6, 0, 0, 0, 0, 0, 6, 0, 1, 1, 0, 0, 6, 0, 0, 0, 0, 1, 1, 9, 9, 6, 3, 0, 0,
-        0, 0, 6, 0, 0, 0, 0, 0, 0, 1, 1, 2, 9, 0, 0, 0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-        6, 6, 0, 0, 6, 0, 0, 0, 0, 1, 1, 9, 9, 6, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-        6, 6, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 6, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 2, 9, 1, 1, 1, 1, 1, 1, 1, 1,
+        6, 6, 0, 0, 6, 0, 0, 0, 0, 1, 1, 2, 9, 6, 0, 0, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1,
+        6, 6, 0, 0, 0, 0, 0, 0, 0, 1, 1, 9, 9, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         6, 0, 6, 0, 0, 0, 6, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0,
     };
 
@@ -370,8 +437,8 @@ void Gameworld::paintmap(QPainter &p){
         0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 7, 7, 6, 0, 6, 2, 9, 1, 1, 0, 0, 0, 0, 0, 0,
         6, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 7, 7, 6, 0, 0, 9, 9, 1, 1, 0, 0, 0, 0, 0, 0,
         0, 0, 1, 1, 0, 0, 6, 0, 0, 1, 1, 7, 7, 0, 0, 0, 0, 0, 1, 1, 2, 9, 0, 0, 0, 0,
-        0, 6, 1, 1, 2, 9, 0, 6, 0, 1, 1, 0, 7, 7, 0, 0, 0, 0, 1, 1, 9, 9, 6, 3, 0, 0,
-        0, 0, 1, 1, 9, 9, 0, 0, 0, 1, 1, 0, 6, 7, 7, 0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+        0, 6, 1, 1, 2, 9, 0, 6, 0, 1, 1, 2, 9, 7, 0, 0, 0, 0, 1, 1, 9, 9, 6, 3, 0, 0,
+        0, 0, 1, 1, 9, 9, 0, 0, 0, 1, 1, 9, 9, 7, 7, 0, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1,
         6, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 6, 7, 7, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
         6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 6, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         6, 0, 6, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0, 6, 0, 0, 0, 0, 0,
@@ -575,6 +642,36 @@ void Gameworld:: paintcircle(QPainter&p){
         }
     }
 }
+//画出升级按钮
+void Gameworld::paintupgrade(QPainter &p)
+{
+    if(UpgradeShow)
+    {
+        p.drawPixmap(upgradex+10,upgradey-30,65,30,QPixmap(":/Gamepic/update.png"));
+    }
+    if(warnshow)
+    {
+        p.drawPixmap(upgradex+30,upgradey-60,20,20,QPixmap(":/Gamepic/warn.png"));
+    }
+}
+
+void Gameworld::paintlifebar(QPainter &p)
+{
+    for(auto aMonster:MonsterVec)//遍历怪物数组并画出生命条
+    {
+        if(aMonster->getlife()>0)
+        {
+       int barlength=65;//规定血条显示长度为65 要计算出不同生命值怪物的血条比例
+       int barheight=7;
+      //double unit=aMonster->getfulllife()/65;
+      double leftlife1=aMonster->getlife()*65/aMonster->getfulllife();//剩余生命的长度
+      int leftlife=leftlife1;
+      qDebug()<<leftlife1;
+       p.drawPixmap(aMonster->getx()-3+leftlife,aMonster->gety()-9,barlength-leftlife,barheight,QPixmap(":/Gamepic/whitebar.png"));
+       p.drawPixmap(aMonster->getx()-3,aMonster->gety()-9,leftlife,barheight,QPixmap(":/Gamepic/greenbar.png"));
+      }
+    }
+}
 //画出子弹
 void Gameworld::paintbullet(QPainter &p){
     for (auto aTower:TowerVec)  //遍历塔数组
@@ -606,6 +703,8 @@ void Gameworld::paintEvent(QPaintEvent *)
     paintMonster(painter);
     paintbullet(painter);
     paintcircle(painter);
+    paintupgrade(painter);
+    paintlifebar(painter);
 }
 
 //判断金钱够不够设塔 、升级等等
@@ -633,29 +732,69 @@ void Gameworld::mousePressEvent(QMouseEvent *ev){
 //        update();  //更新界面
 //        return;
 //    }
+    //1.塔升级按钮点击处理 前提是有塔
+      if(UpgradeShow)
+       {
+          if(ClickRegion(upgradex+10,65,upgradey-30,30))
+          {
+              for (auto aTower: TowerVec)
+                  if(aTower->GetPitX()==upgradex&&aTower->GetPitY()==upgradey)
+                  {
+                      if(Ifmoneyenough(100)&&aTower->GetShootrange()<=230&&aTower->GetAttack()<=40) //升级花费100元
+                      {     //升级后塔的攻击半径加7，攻击力加5
+                            aTower->SetAttack(5);
+                            aTower->SetRange(7);
+                            aTower->SetWidthHeight();
+                            break;
+                      }
+                      else{
+                          UpgradeShow=false;
+                          warnshow=true;
+                          return;
+                      }
+                  }
+              UpgradeShow=false;
+              update();
+              return;
+          }
+      }
 
-    //1.点击塔坑显示选择框事件处理
+
+      //2.点击塔坑显示选择框事件处理
     //遍历塔坑Vector，
    for (auto Apit : TowerpitVec)
        //如果点击了这个塔坑的范围，且还没有放置塔，出现选择框
     if(ClickRegion(Apit->GetX(), Apit->GetWidth(), Apit->GetY(), Apit->GetHeight()))
     {
 
-        for (auto aTower: TowerVec)      //遍历塔数组，判断塔坐标和点击坑坐标是否重合，重合说明已经有塔，则返回
+         UpgradeShow=false;//升级按钮不显示
+        for (auto aTower: TowerVec)      //遍历塔数组，判断塔坐标和点击坑坐标是否重合，重合说明已经有塔，然后将这个塔的
+                                           //升级按钮显示
+        {
             if(aTower->GetPitX()==Apit->GetX()&&aTower->GetPitY()==Apit->GetY())
             {
-//                      //显示防御塔攻击范围
-                return;
+
+                  upgradex=aTower->GetPitX();
+                  upgradey=aTower->GetPitY();
+                  warnshowx=upgradex+30;
+                  warnshowy=upgradey-30;
+                  UpgradeShow=true;//有塔受到点击，升级按钮显示
+                  return;
             }
-        this->Selectbox->ChooseTower(Apit->GetX(),Apit->GetY()); //显示选择框
-        qDebug()<<"lllll";
-        update();  //更新界面
-        return;
+        }
+
+
+         this->Selectbox->ChooseTower(Apit->GetX(),Apit->GetY()); //显示选择框
+        //qDebug()<<"lllll";
+          update();
+          return;
+
+
     }
 
 
 
-   //2.出现选择框后选择点击事件处理
+   //3.出现选择框后选择点击事件处理
 
    SelectButton* ASelectbut = Selectbox->GetSelectBut();
    for (int i = 0; i < 3; i++)
@@ -691,9 +830,33 @@ void Gameworld::mousePressEvent(QMouseEvent *ev){
            return;
        }
 
-   //3.
 
+//         if (MouClickRegion(DisplayRangeX + 10, 60 , DisplayRangeY - 80, 60))
+//         {
+//             //设置防御塔宽高，攻击力，微调坐标
+//             for (auto defei : DefeTowerVec)
+//                 if (defei->GetUpLeftX() == DisplayRangeX && defei->GetUpLeftY() == DisplayRangeY && DisplayRange)
+//                 {
+//                     if (DeductionMoney(200)) return;        //升级防御塔需要花费200
 
+//                     defei->SetAttack(defei->GetAttack() + 20);          //每次升级防御塔攻击力+20
+//                     defei->SetWidthHeight(defei->GetWidth() + 12, defei->GetHeight() + 6);   //防御塔宽高增加
+//                     defei->SetXY(defei->GetX() - 6, defei->GetY() - 3); //调整防御塔坐标
+//                     defei->SetAimsMonster(NULL);                        //将防御塔目标设为空
+//                     defei->SetRange() += 14;                            //设置防御塔的攻击范围
+//                     defei->SetExplRangeWidthHeight(defei->GetExplRangeWidth() + 5, defei->GetExplRangeHeight() + 5); //设置防御塔攻击怪物所产生的爆炸效果宽高
+//                     defei->SetBulletWidthHeight(defei->GetBulletWidth() + 5, defei->GetBulletHeight() + 5);          //设置子弹宽高
+//                     break;
+//                 }
+
+//             SelBox->SetDisplay(false);      //取消显示新建防御塔框
+//             DisplayRange = false;           //取消显示自己
+//             update();
+//             return;
+//         }
+
+   UpgradeShow=false;
+   warnshow=false;
    Selectbox->Setshow(false);      //取消显示选择框
    update();
 
@@ -703,4 +866,38 @@ void Gameworld::mousePressEvent(QMouseEvent *ev){
 //计算两点距离函数
 double Gameworld::Distance(int x1,int y1,int x2,int y2){
     return sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+}
+
+void Gameworld::closeEvent(QCloseEvent *event)
+{
+    player->stop();
+    player2->stop();
+}
+
+
+Gameworld::~Gameworld(){
+  player->stop();
+  delete   this->Selectbox;
+
+  for (auto aTowerPit= TowerpitVec.begin();aTowerPit!= TowerpitVec.end();aTowerPit++)
+  {
+      delete *aTowerPit;
+      //*it = NULL;
+  }
+
+  //释放防御塔父类指针数组DefeTowerVec
+  for (auto aTower= TowerVec.begin();aTower!=TowerVec.end();aTower++)
+  {
+      delete *aTower;
+      //*aTower = NULL;
+  }
+
+  //释放怪物数组MonsterVec
+  for (auto aMonster = MonsterVec.begin();aMonster!= MonsterVec.end(); aMonster++)
+  {
+      delete *aMonster;
+
+  }
+
+
 }

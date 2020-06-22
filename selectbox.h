@@ -1,6 +1,6 @@
 #ifndef SELECTBOX_H
 #define SELECTBOX_H
-
+#include<QMediaPlayer>
 #include<QString>
 #include"Selectbutton.h"  //包含进子按钮类
 
