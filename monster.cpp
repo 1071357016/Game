@@ -34,7 +34,7 @@ Monster::Monster(int x1,int y1,Point** path1,int NumOfPathPoint1,int id):x(x1),y
             this->life=180;
             this->width=60;
             this->height=60;
-            this->value=180;
+            this->value=150;
             this->speed=10;
             MonsterPic=":/Gamepic/master3.png";
             break;

@@ -286,7 +286,7 @@ if(level==2)
  {
     if(this->TimeMonsterNum>=0&&this->TimeMonsterNum<=5)
     {
-
+         InsertMonster(Path2,StartPoint[1],NumOfPoint[1],1);
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],2);
 
     }
@@ -331,7 +331,7 @@ if(level==3)
     {
         //开始游戏怪物数目1~7时，只有一条路产生编号1的小黑黑怪
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
-
+          InsertMonster(Path2,StartPoint[1],NumOfPoint[1],1);
     }
     if(this->TimeMonsterNum>7&&this->TimeMonsterNum<=14)
     {
