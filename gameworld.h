@@ -21,7 +21,6 @@
 #include"Selectbutton.h"
 #include"selectbox.h"
 #include"monster.h"
-#include"Bullet.h"
 #include <stdlib.h>
 
 
@@ -34,6 +33,10 @@ public:
     Gameworld(int i);
     ~Gameworld();
 private:
+    QTimer* timer2 = new QTimer(this);
+    QTimer* timer3 = new QTimer(this);
+
+
     //游戏胜利和失败的标签
      QLabel *winlable = new QLabel(this);
      QLabel *loselable = new QLabel(this);
@@ -45,7 +48,7 @@ private:
     int mylife=7;//我们的生命值
     QLabel *lifelable = new QLabel(this);   //显示生命标签控件
 
-    int TimeMonsterNum=0;//时间计数，每插入怪物加一，也就是实现游戏时间越长难度越大
+    int TimeMonsterNum=0;//时间计数，每生成一次怪物加一，也就是实现游戏时间越长难度越大
 
     //升级按钮显示依据
     bool UpgradeShow=false;

@@ -6,7 +6,6 @@
 #include <QObject>
 #include<QVector>
 #include<QDebug>
-#include"Bullet.h"
 #include"monster.h"
 #include"Point.h"
 class TowerParent
@@ -26,23 +25,14 @@ protected:
 
 
 
-    //关于子弹的数据成员加入
-
-
-    //int power;              //子弹威力
-    int bulletwidth, bulletheight;      //子弹宽高
-    int breaks=0;          //用于控制发射子弹的速度
+    int breaks=0;          //用于控制塔攻击的间歇
     int attack;             //防御炮塔攻击力
-    //QVector<Bullet*>  BulletVec;  //子弹数组
-    QString BulletPic;       //子弹图片路径
-//    int ExplRangeWidth;     //记录防御塔击中怪物后所能造成的爆炸效果的宽高
-//    int ExplRangeHeight;
 
 
 
 public:
 
-     QVector<Bullet*>  BulletVec;  //子弹数组
+
     //TowerParent();
     int GetX() const{return this->x;}       //获取横坐标
     int GetY() const{return this->y;}        //获取纵坐标
@@ -55,8 +45,6 @@ public:
 
     //6.11
     int GetAttack() const;          //获取炮塔攻击力
-    int GetBulletWidth() const;     //获取子弹的宽度
-    int GetBulletHeight() const;    //获取子弹的高度
     int  GetShootrange()const;  //获取攻击范围半径
     Monster* GetAimMonster() const;//获取当前炮塔的目标怪物
 

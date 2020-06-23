@@ -12,10 +12,7 @@ Towerone::Towerone(int x1,int y1,int pitx, int pity,int width1,int height1)
    id=1;
 
       ShootRange=120;//射程
-    //子弹相关
-    BulletPic=QString(":/Gamepic/bullet2.png");
-    bulletwidth=20;
-    bulletheight=20;
+
     attack=18;
 
 }

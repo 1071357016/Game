@@ -56,7 +56,7 @@ Gameworld::Gameworld(int i):level(i){
     moneylable->setFont(QFont("华康海报体W12(P)", 20));
     moneylable->setText(QString("金钱：%1").arg(money));
     //每时每刻产生构造怪物产生路径并传入怪物,时间间隔控制产生怪物间隔
-    QTimer* timer2 = new QTimer(this);
+    //QTimer* timer2 = new QTimer(this);
     timer2->start(3000);
 
     connect(timer2,&QTimer::timeout,[=]()
@@ -117,7 +117,7 @@ Gameworld::Gameworld(int i):level(i){
 
 
     //每时每刻画怪物+判断怪物进没进入炮塔的攻击区域 进入发射子弹+
-    QTimer* timer3 = new QTimer(this);
+    //QTimer* timer3 = new QTimer(this);
     timer3->start(100);
 
     connect(timer3,&QTimer::timeout,[=]()
@@ -160,7 +160,7 @@ Gameworld::Gameworld(int i):level(i){
                                    timer4->start(4000);
 
                                    connect(timer4,&QTimer::timeout,[=](){
-                                       player->stop();
+
                                        this->close();
                                    }
                                   );  //生命值为0时关闭该窗口
@@ -179,7 +179,7 @@ Gameworld::Gameworld(int i):level(i){
             {
                 for(int i =MonsterVec.size()- 1;i>=0; i--)
                     //这里以防御塔中心点和怪物中心点判断  且怪物生命值要大于0
-                    if (Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,MonsterVec.at(i)->getx()+MonsterVec.at(i)->getwidth()/2,MonsterVec.at(i)->gety()+MonsterVec.at(i)->getheight()/2)<=aTower->GetShootrange())
+                    if (Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,MonsterVec.at(i)->getx()+MonsterVec.at(i)->getwidth()/2,MonsterVec.at(i)->gety()+MonsterVec.at(i)->getheight()/2)<aTower->GetShootrange()+0.1)
                       if(MonsterVec.at(i)->getlife()>0)
                     {
                         aTower->SetAimsMonster(MonsterVec.at(i));    //设置防御塔的目标怪物
@@ -239,13 +239,13 @@ void Gameworld::ProduceMonster(Point** Path1,Point** Path2,Point* StartPoint, in
 
 if(level==1)
  {
-    if(this->TimeMonsterNum>=0&&this->TimeMonsterNum<=8)
+    if(this->TimeMonsterNum>=0&&this->TimeMonsterNum<=6)
     {
-        //开始游戏怪物数目1~10时，只有一条路产生编号1的小黑黑怪
+
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
 
     }
-    if(this->TimeMonsterNum>8&&this->TimeMonsterNum<=12)
+    if(this->TimeMonsterNum>6&&this->TimeMonsterNum<=12)
     {
 
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
@@ -266,16 +266,19 @@ if(level==1)
         player4->setMedia(QUrl("qrc:/Gamepic/win.mp3"));
         player4->setVolume(100);
         player4->play();
-        QTimer* timer5= new QTimer(this);
-        timer5->start(4000);
 
-        connect(timer5,&QTimer::timeout,[=](){
-         //player->stop();
+        QTimer* timer5= new QTimer(this);
+        timer5->start(3000);
+
+        connect(timer5, &QTimer::timeout,this,[=](){
+
+            timer2->stop();
+            timer3->stop();
          player4->stop();
          this->close();
         }
        ); //关闭窗口
-        return;
+
     }
    }
 
@@ -283,7 +286,7 @@ if(level==2)
  {
     if(this->TimeMonsterNum>=0&&this->TimeMonsterNum<=5)
     {
-        //开始游戏怪物数目1~10时，只有一条路产生编号1的小黑黑怪
+
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],2);
 
     }
@@ -294,7 +297,7 @@ if(level==2)
         InsertMonster(Path2,StartPoint[1],NumOfPoint[1],3);
 
     }
-    if(this->TimeMonsterNum>12&&this->TimeMonsterNum<=18)
+    if(this->TimeMonsterNum>12&&this->TimeMonsterNum<=20)
     {
 
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
@@ -302,7 +305,7 @@ if(level==2)
         InsertMonster(Path2,StartPoint[1],NumOfPoint[1],3);
 
     }
-    if(this->TimeMonsterNum>18&&MonsterVec.empty()&&flag==0)
+    if(this->TimeMonsterNum>20&&MonsterVec.empty()&&flag==0)
     {
         winlable->show();
         player->stop();
@@ -310,15 +313,17 @@ if(level==2)
         player4->setVolume(100);
         player4->play();
         QTimer* timer5= new QTimer(this);
-        timer5->start(4000);
+        timer5->start(3000);
 
-        connect(timer5,&QTimer::timeout,[=](){
-            player4->stop();
-         this->close();
+        connect(timer5,&QTimer::timeout,this,[=](){
+          player4->stop();
+          timer2->stop();
+          timer3->stop();
+            this->close();
         }
        ); //关闭窗口
-        return;
-    }
+
+      }
    }
 if(level==3)
  {
@@ -347,7 +352,7 @@ if(level==3)
     {
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],1);
         InsertMonster(Path1,StartPoint[0],NumOfPoint[0],4);
-        InsertMonster(Path2,StartPoint[1],NumOfPoint[1],3);
+        InsertMonster(Path2,StartPoint[1],NumOfPoint[1],4);
     }
     if(this->TimeMonsterNum>24&&MonsterVec.empty()&&flag==0)
     {
@@ -357,15 +362,17 @@ if(level==3)
         player4->setVolume(100);
         player4->play();
         QTimer* timer5= new QTimer(this);
-        timer5->start(4000);
+        timer5->start(3000);
 
-        connect(timer5,&QTimer::timeout,[=](){
-         player4->stop();
+        connect(timer5,&QTimer::timeout,this,[=](){
+      player4->stop();
+      timer2->stop();
+      timer3->stop();
          this->close();
         }
        ); //关闭窗口
 
-        return;
+
     }
    }
     TimeMonsterNum++;
@@ -818,30 +825,6 @@ void Gameworld::mousePressEvent(QMouseEvent *ev){
        }
 
 
-//         if (MouClickRegion(DisplayRangeX + 10, 60 , DisplayRangeY - 80, 60))
-//         {
-//             //设置防御塔宽高，攻击力，微调坐标
-//             for (auto defei : DefeTowerVec)
-//                 if (defei->GetUpLeftX() == DisplayRangeX && defei->GetUpLeftY() == DisplayRangeY && DisplayRange)
-//                 {
-//                     if (DeductionMoney(200)) return;        //升级防御塔需要花费200
-
-//                     defei->SetAttack(defei->GetAttack() + 20);          //每次升级防御塔攻击力+20
-//                     defei->SetWidthHeight(defei->GetWidth() + 12, defei->GetHeight() + 6);   //防御塔宽高增加
-//                     defei->SetXY(defei->GetX() - 6, defei->GetY() - 3); //调整防御塔坐标
-//                     defei->SetAimsMonster(NULL);                        //将防御塔目标设为空
-//                     defei->SetRange() += 14;                            //设置防御塔的攻击范围
-//                     defei->SetExplRangeWidthHeight(defei->GetExplRangeWidth() + 5, defei->GetExplRangeHeight() + 5); //设置防御塔攻击怪物所产生的爆炸效果宽高
-//                     defei->SetBulletWidthHeight(defei->GetBulletWidth() + 5, defei->GetBulletHeight() + 5);          //设置子弹宽高
-//                     break;
-//                 }
-
-//             SelBox->SetDisplay(false);      //取消显示新建防御塔框
-//             DisplayRange = false;           //取消显示自己
-//             update();
-//             return;
-//         }
-
    UpgradeShow=false;
    warnshow=false;
    Selectbox->Setshow(false);      //取消显示选择框
@@ -857,33 +840,46 @@ double Gameworld::Distance(int x1,int y1,int x2,int y2){
 
 void Gameworld::closeEvent(QCloseEvent *event)
 {
+   timer2->stop();
+   timer3->stop();
+
     player->stop();
     player2->stop();
+    player3->stop();
+    player4->stop();
+    this->close();
 }
 
 
 Gameworld::~Gameworld(){
   player->stop();
+  delete timer2;
+  delete timer3;
+  delete player;
+  delete player2;
+  delete player3;
+  delete player4;
+
   delete   this->Selectbox;
 
   for (auto aTowerPit= TowerpitVec.begin();aTowerPit!= TowerpitVec.end();aTowerPit++)
   {
       delete *aTowerPit;
-      //*it = NULL;
+      *aTowerPit = NULL;
   }
 
   //释放防御塔父类指针数组DefeTowerVec
   for (auto aTower= TowerVec.begin();aTower!=TowerVec.end();aTower++)
   {
       delete *aTower;
-      //*aTower = NULL;
+      *aTower = NULL;
   }
 
   //释放怪物数组MonsterVec
   for (auto aMonster = MonsterVec.begin();aMonster!= MonsterVec.end(); aMonster++)
   {
       delete *aMonster;
-
+      *aMonster=NULL;
   }
 
 

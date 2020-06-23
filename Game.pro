@@ -30,7 +30,6 @@ SOURCES += \
     towertwo.cpp
 
 HEADERS += \
-    Bullet.h \
     Point.h \
     Selectbutton.h \
     chooselevelwindow.h \

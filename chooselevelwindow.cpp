@@ -12,7 +12,7 @@ ChooseLevelwindow::ChooseLevelwindow(QWidget *parent) : QMainWindow(parent)
     //关卡一
     level1button->setParent(this);
     level1button->move(200,200);
-
+    // Gameworld *gameworld1;
 
     //点击按键进入游戏世界1
     connect(level1button,&MyPushButton::clicked,this,[=]{
@@ -23,6 +23,7 @@ ChooseLevelwindow::ChooseLevelwindow(QWidget *parent) : QMainWindow(parent)
         gameworld1->show();//展示第一关游戏世界1
 
     });
+
 
 
     //关卡二

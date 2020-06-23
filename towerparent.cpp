@@ -31,14 +31,7 @@ bool TowerParent::ifTowerAttack()
 int TowerParent::GetAttack() const{
     return this->attack;
 }
- //获取子弹的宽度
-int TowerParent::GetBulletWidth() const{
-    return this->bulletwidth;
-}
 
-int TowerParent::GetBulletHeight() const{
-     return this->bulletheight;
-}
 //获取当前炮塔的目标怪物
 Monster* TowerParent::GetAimMonster() const{
       return this->AimMonster;

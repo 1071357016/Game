@@ -364,3 +364,20 @@
    ###Removed:
 ——————————到现在基本想实现的功能已经基本实现了： 关卡选择，游戏随时间增长难度加大，塔对怪物的攻击，
            塔的升级，怪物的生命值显示以及一些背景音乐。——————————————
+
+##2020/6/23
+  bug: 似乎关闭第一关或者第二关后游戏还在私下运行？？？
+  bug修复 ：eee是因为closeevent函数里没写this->close以及析构函数写的不完全
+   ###Added：
+
+
+
+   ###Changed:
+      1.Gameworld类：
+       closeEvent:添加了关掉此页面以及停掉player timer
+       ~Gameworld:delete了Gameworld中的指针
+
+
+
+   ###Removed:
+       1.Bullet.h

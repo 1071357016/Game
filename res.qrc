@@ -50,13 +50,12 @@
         <file>Gamepic/yanzhu1.png</file>
         <file>Gamepic/Music.mp3</file>
         <file>Gamepic/Music2.mp3</file>
-        <file>Gamepic/hurt</file>
         <file>Gamepic/hurt2.mp3</file>
         <file>Gamepic/greenbar.png</file>
         <file>Gamepic/whitebar.png</file>
-        <file>Gamepic/win.mp3</file>
         <file>Gamepic/lose.mp3</file>
         <file>Gamepic/warn.png</file>
         <file>Gamepic/grass2.png</file>
+        <file>Gamepic/win.mp3</file>
     </qresource>
 </RCC>

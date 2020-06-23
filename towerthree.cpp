@@ -13,9 +13,6 @@ Towerthree::Towerthree(int x1,int y1,int pitx, int pity,int width1,int height1)
     id=3;
 
     ShootRange=200;//射程
-    //子弹相关
-    BulletPic=QString(":/Gamepic/bullet3.png");
-    bulletwidth=20;
-    bulletheight=20;
+
     attack=30;
 }
