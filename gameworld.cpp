@@ -52,7 +52,7 @@ Gameworld::Gameworld(int i):level(i){
     QPalette pe2;
     pe2.setColor(QPalette::WindowText,Qt::yellow);
     moneylable->setPalette(pe2);
-    moneylable->setGeometry(700, 10, 210, 35);
+    moneylable->setGeometry(700, 10, 300, 35);
     moneylable->setFont(QFont("华康海报体W12(P)", 20));
     moneylable->setText(QString("金钱：%1").arg(money));
     //每时每刻产生构造怪物产生路径并传入怪物,时间间隔控制产生怪物间隔
