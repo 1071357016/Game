@@ -65,8 +65,8 @@ Gameworld::Gameworld(int i):level(i){
         case 1:
         {
             //设置路径点  第一关没有拐弯的地方，第一个拐点就是出发点，最后一个拐点即 家的坐标。
-           Point* path1[] = {/*new Point(0,260),*/new Point(960, 280)};
-           Point* path2[] = {/*new Point(0,290),*/ new Point(960, 280)};
+           Point* path1[] = {/*new Point(10,260),*/new Point(960, 280)};
+           Point* path2[] = {/*new Point(10,290),*/ new Point(960, 280)};
             //怪物的起始点数组MonsterStart，都规定好的
             Point start1(0,260);
             Point start2(0,290);
@@ -174,10 +174,12 @@ Gameworld::Gameworld(int i):level(i){
 
         for (auto aTower:TowerVec)      //遍历防御塔
         {
-            //先判断若当前防御塔没有目标，则创建目标
-            if (aTower->GetAimMonster()==NULL)
+            if(aTower->GetId()==1||aTower->GetId()==3)
             {
-                for(int i =MonsterVec.size()- 1;i>=0; i--)
+            //先判断若当前防御塔没有目标，则创建目标
+               if (aTower->GetAimMonster()==NULL)
+               {
+                   for(int i =MonsterVec.size()- 1;i>=0; i--)
                     //这里以防御塔中心点和怪物中心点判断  且怪物生命值要大于0
                     if (Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,MonsterVec.at(i)->getx()+MonsterVec.at(i)->getwidth()/2,MonsterVec.at(i)->gety()+MonsterVec.at(i)->getheight()/2)<aTower->GetShootrange()+0.1)
                       if(MonsterVec.at(i)->getlife()>0)
@@ -185,11 +187,11 @@ Gameworld::Gameworld(int i):level(i){
                         aTower->SetAimsMonster(MonsterVec.at(i));    //设置防御塔的目标怪物
                         qDebug()<<"Aim monster get!";
                         break;  //找到后跳出循环
-                    }
-            }
+                     }
+                }
 
             //判断若当前防御塔拥有目标//目标在攻击范围内
-           if(aTower->GetAimMonster()!=NULL)
+               if(aTower->GetAimMonster()!=NULL)
                 {
                        //目标在攻击范围内
                    if (Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,aTower->GetAimMonster()->getx()+aTower->GetAimMonster()->getwidth()/2,aTower->GetAimMonster()->gety()+aTower->GetAimMonster()->getheight()/2)<=aTower->GetShootrange())
@@ -208,17 +210,41 @@ Gameworld::Gameworld(int i):level(i){
                                        }
 
                                  }
-                 }
+                  }
            //判断若当前防御塔拥有目标,超过距离将目标怪物设为空
-           if(aTower->GetAimMonster()!=NULL)
+                if(aTower->GetAimMonster()!=NULL)
                   {
                       if(Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,aTower->GetAimMonster()->getx()+aTower->GetAimMonster()->getwidth()/2,aTower->GetAimMonster()->gety()+aTower->GetAimMonster()->getheight()/2)>aTower->GetShootrange())
                                     aTower->SetAimsMonster(NULL);
 
                         // }
                   }
-           //qDebug()<<"BulletMove";
-         // aTower->BulletMove();
+            }
+            //如果是2型防御塔对怪物造成减速效果
+          else if(aTower->GetId()==2)
+            {
+                for(int i =MonsterVec.size()- 1;i>=0; i--)
+                 //这里以防御塔中心点和怪物中心点判断  且怪物生命值要大于0
+                 {
+                    if(MonsterVec.at(i)->getlife()>0)
+                     if (Distance(aTower->GetPitX()+40,aTower->GetPitY()+40,MonsterVec.at(i)->getx()+MonsterVec.at(i)->getwidth()/2,MonsterVec.at(i)->gety()+MonsterVec.at(i)->getheight()/2)<aTower->GetShootrange()+0.1)
+
+                      {
+                        MonsterVec.at(i)->SetSpeed(1);
+//                        aTower->SetAimsMonster(MonsterVec.at(i));    //设置防御塔的目标怪物
+//                     qDebug()<<"Aim monster get!";
+//                     break;  //找到后跳出循环
+                      }
+                     else{
+                          MonsterVec.at(i)->SetSpeed(MonsterVec.at(i)->getfullspeed());
+                     }
+
+
+
+
+                }
+
+            }
         }
 
 
@@ -628,7 +654,7 @@ void Gameworld::paintTower(QPainter &p){
 void Gameworld:: paintcircle(QPainter&p){
     for (auto aTower:TowerVec)  //遍历塔数组
     {
-      // 如果有目标就画
+      // 如果1、3有目标就画
         if(aTower->GetAimMonster()!=NULL)
         {
             if(aTower->GetId()==1)
@@ -636,16 +662,19 @@ void Gameworld:: paintcircle(QPainter&p){
                      p.setPen(QPen(Qt::red));  //使用红色画出范围
                      p.drawEllipse(QPoint(aTower->GetPitX()+40,aTower->GetPitY()+40),aTower->GetShootrange(),aTower->GetShootrange());
                  }
-            if(aTower->GetId()==2)
-                {
-                     p.setPen(QPen(Qt::green));  //使用绿色画出范围
-                     p.drawEllipse(QPoint(aTower->GetPitX()+40,aTower->GetPitY()+40),aTower->GetShootrange(),aTower->GetShootrange());
-                 }
+
             if(aTower->GetId()==3)
                 {
                      p.setPen(QPen(Qt::red));  //使用红色画出范围
                      p.drawEllipse(QPoint(aTower->GetPitX()+40,aTower->GetPitY()+40),aTower->GetShootrange(),aTower->GetShootrange());
                  }
+        }
+      if(aTower->GetId()==2)
+        {
+
+                     p.setPen(QPen(Qt::green));  //使用绿色画出范围
+                     p.drawEllipse(QPoint(aTower->GetPitX()+40,aTower->GetPitY()+40),aTower->GetShootrange(),aTower->GetShootrange());
+
         }
     }
 }

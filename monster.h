@@ -4,6 +4,7 @@
 #include<QString>
 #include <QVector>
 #include<Point.h>
+#include<math.h>
 
 //之前的怪物类名字打错了看着难受，重新开始造
 //设想是实现4种怪物，各种属性不一样
@@ -25,10 +26,12 @@ public:
     int getvalue(){return value;}
     int getlife(){return life;}
     int getfulllife(){return fulllife;}
+    int getfullspeed(){return fullspeed;}
     QString getMonsterPic(){return  MonsterPic;}
 
     //被击中后重置生命值
     void SetLife(int hurt);
+    void SetSpeed(int newspeed);
 
 private:
 
@@ -42,6 +45,7 @@ private:
     int life;//生命值
     int fulllife;//完整生命值v 用来画血条
     int speed;//速度
+    int fullspeed;//用于记录原始速度
 };
 
 #endif // MONSTER_H

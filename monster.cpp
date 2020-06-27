@@ -49,6 +49,7 @@ Monster::Monster(int x1,int y1,Point** path1,int NumOfPathPoint1,int id):x(x1),y
             break;
     }
     fulllife=life;
+    fullspeed=speed;
 
 }
 
@@ -61,11 +62,17 @@ bool Monster::MonsterMove(){
         return true;
 
         //重合则删除此路径点
-      if (path.at(0)->y==this->y && path.at(0)->x==this->x)
+      if (abs(path.at(0)->y-this->y)<5&&abs(path.at(0)->x-this->x)<5)
        {
            path.erase(path.begin());
            return false;
        }
+//      if(path.size()==1)
+//      {
+//          if(abs(x-path.at(0)->x)<7&&abs(y-path.at(0)->y)<7)
+//              path.erase(path.begin());
+//            return false;
+//      }
 
     if (path.at(0)->y<y) //下
     {
@@ -94,6 +101,11 @@ bool Monster::MonsterMove(){
 //受伤害重置生命值
 void Monster::SetLife(int hurt){
     this->life=this->life-hurt;
+}
+
+void Monster::SetSpeed(int newspeed)
+{
+    this->speed=newspeed;
 }
 
 
