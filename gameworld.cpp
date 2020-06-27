@@ -13,6 +13,8 @@ Gameworld::Gameworld(int i):level(i){
     setFixedSize(1040, 640);//为了方便设置地图修改了界面大小
     setWindowIcon(QIcon(":/Gamepic/bgtry.png"));
 
+    if(i==3)
+        mylife=10;
     //播放背景音乐
     player->setMedia(QUrl("qrc:/Gamepic/Music2.mp3"));
     player->setVolume(100);
