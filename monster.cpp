@@ -62,7 +62,7 @@ bool Monster::MonsterMove(){
         return true;
 
         //重合则删除此路径点
-      if (abs(path.at(0)->y-this->y)<5&&abs(path.at(0)->x-this->x)<5)
+      if (abs(path.at(0)->y-this->y)<7&&abs(path.at(0)->x-this->x)<7)
        {
            path.erase(path.begin());
            return false;
